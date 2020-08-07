@@ -28,7 +28,7 @@ Then use the GUI tool to make more tweaks. Run it with dconf running in another 
 
 Go to Settings > Printers and expect the HP Laserjet MFP M125nw to be there, without having to add it, even over WiFi. Print a test page. May no longer be required for 20.04.
 
-Get a udev rules file for Open OCD, maybe the one from their Sourceforge repo [here](https://sourceforge.net/p/openocd/code/ci/master/tree/contrib/60-openocd.rules), and put it in /etc/udev/rules.d. chmod it to 644. Make sure your user is in the plugdev (and maybe dailout) groups. Reboot.
+Get a udev rules file for Open OCD, maybe the one from their Sourceforge repo [here](https://sourceforge.net/p/openocd/code/ci/master/tree/contrib/60-openocd.rules), and put it in `/etc/udev/rules.d`. `chmod` it to 644. Make sure your user is in the `plugdev` (and maybe `dailout`) groups. Reboot.
 
 Set up scanner manually with:
 
