@@ -18,6 +18,8 @@ sudo apt-get install -y simple-scan
 sudo apt-get install -y python-qt4
 sudo apt-get install -y python3-pip
 pip3 install pyqt5
+# Fingerprint reader
+sudo apt-get install -y fprintd
 
 # Gnome settings
 gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
