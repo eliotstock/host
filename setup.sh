@@ -5,11 +5,12 @@
 sudo apt-get install -y git
 sudo apt-get install -y emacs
 sudo apt-get install -y virtualenv
-sudo apt-get install -y gnome-tweaks
+sudo apt-get install -y cloc
 sudo snap install android-studio --classic
 sudo snap install code --classic
 sudo snap install node --classic --channel=8/stable
 # Other
+sudo apt-get install -y gnome-tweaks
 sudo snap install slack --classic
 sudo snap install spotify
 sudo snap install vlc
