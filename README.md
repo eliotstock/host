@@ -42,3 +42,12 @@ Set up scanner manually with:
 Then test with:
 
 * `simple-scan`
+
+Get new firmware from the LVFS stable channel if anything doesn't work (eg. fingerprint reader)
+
+* `fwupdmgr enable-remote lvfs`
+* `fwupdmgr get-devices`
+* `fwupdmgr refresh`
+* `fwupdmgr get-updates`
+* `fwupdmgr update`
+* `fwupdmgr disable-remote lvfs`
