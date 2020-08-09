@@ -51,3 +51,5 @@ Get new firmware from the LVFS stable channel if anything doesn't work (eg. fing
 * `fwupdmgr get-updates`
 * `fwupdmgr update`
 * `fwupdmgr disable-remote lvfs`
+
+So that `apt-get source foo` will work, open the "Software & Updates" application and check "Source code"
