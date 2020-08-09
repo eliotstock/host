@@ -29,8 +29,8 @@ gsettings set org.gnome.desktop.background picture-uri 'file:////usr/share/gnome
 gsettings set org.gnome.desktop.screensaver picture-uri 'file:////usr/share/gnome-control-center/pixmaps/noise-texture-light.png'
 gsettings set org.gnome.desktop.peripherals.mouse speed -0.15
 gsettings set org.gnome.desktop.peripherals.touchpad speed 0.60
-gsettings set org.gnome.shell.extensions.dash-to-dock.dash-max-icon-size 20
-gsettings set org.gnome.shell.extensions.dash-to-dock.dock-fixed false
+gsettings set org.gnome.shell.extensions.dash-to-dock dash-max-icon-size 20
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
 gsettings set org.gnome.desktop.interface show-battery-percentage true
 gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 gsettings set org.gnome.nautilus.list-view default-zoom-level 'small'
