@@ -35,6 +35,8 @@ gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
 gsettings set org.gnome.desktop.interface show-battery-percentage true
 gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 gsettings set org.gnome.nautilus.list-view default-zoom-level 'small'
+gsettings set org.gnome.desktop.session idle-delay 900
+gsettings set org.gnome.desktop.screensaver lock-delay 60
 
 # Increase the number of watches available to inotify for IDEs
 # Not repeatable
@@ -43,9 +45,9 @@ sudo echo "fs.inotify.max_user_watches = 524288" > /etc/sysctl.d/50-eliot_more_w
 # Create ~/.bash_profile, or if it's already there append to it
 # Not repeatable
 if [ -f ~/.bash_profile ]; then
-  cat ./bash_profile_additions.sh >> ~/.bash_profile
+  cat ./bash_profile.sh >> ~/.bash_profile
 else
-  cp ./bash_profile_additions.sh ~/.bash_profile
+  cp ./bash_profile.sh ~/.bash_profile
   chmod 644 ~/.bash_profile
 fi
 

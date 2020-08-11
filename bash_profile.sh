@@ -1,7 +1,7 @@
 # When setting up a new machine, add all this to ~/.bash_profile, which may not exist yet.
 
 # Have git and others use emacs for an editor, not vi.
-export VISUAL=emacs
+export VISUAL="emacs -nw"
 export EDITOR="$VISUAL"
 
 # Keep the gradle version here up to date with the latest that Android Studio downloads.
@@ -23,7 +23,7 @@ export CCACHE_DIR=~/r/fuchsia/.ccache
 
 # PATH=/Volumes/GoogleDrive/My\ Drive/bin:$PATH
 
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+# export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 
 alias ls='ls -lah'
 
