@@ -37,7 +37,17 @@ gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 gsettings set org.gnome.nautilus.list-view default-zoom-level 'small'
 
 # Increase the number of watches available to inotify for IDEs
+# Not repeatable
 sudo echo "fs.inotify.max_user_watches = 524288" > /etc/sysctl.d/50-eliot_more_watches.conf
+
+# Create ~/.bash_profile, or if it's already there append to it
+# Not repeatable
+if [ -f ~/.bash_profile ]; then
+  cat ./bash_profile_additions.sh >> ~/.bash_profile
+else
+  cp ./bash_profile_additions.sh ~/.bash_profile
+  chmod 644 ~/.bash_profile
+fi
 
 # Git user details could go here, but let's not put my email address in an open source codebase
 # git config --global user.email "foo@example.com"
