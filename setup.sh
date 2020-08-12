@@ -42,14 +42,14 @@ gsettings set org.gnome.desktop.screensaver lock-delay 60
 # Not repeatable
 sudo echo "fs.inotify.max_user_watches = 524288" > /etc/sysctl.d/50-eliot_more_watches.conf
 
-# Create ~/.bash_profile, or if it's already there append to it
-# Not repeatable
-if [ -f ~/.bash_profile ]; then
-  cat ./bash_profile.sh >> ~/.bash_profile
-else
-  cp ./bash_profile.sh ~/.bash_profile
-  chmod 644 ~/.bash_profile
+# Append to ~/.bashrc with a sourcing of bashrc.sh from this repo
+cat >> ~/.bashrc <<EOL
+# Do not add things to ~/.bashrc, which is not version controlled.
+# Instead add things to ~/r/linux-setup/bashrc.sh, which is.
+if [ -f ~/r/linux-setup/bashrc.sh ]; then
+  source ~/r/linux-setup/bashrc.sh
 fi
+EOL
 
 # Git user details could go here, but let's not put my email address in an open source codebase
 # git config --global user.email "foo@example.com"
