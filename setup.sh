@@ -8,7 +8,10 @@ sudo apt-get install -y virtualenv
 sudo apt-get install -y cloc
 sudo snap install android-studio --classic
 sudo snap install code --classic
-sudo snap install node --classic --channel=8/stable
+
+# Don't use the Node.js snap
+# sudo snap install node --classic --channel=8/stable
+
 # Other
 sudo apt-get install -y gnome-tweaks
 sudo snap install slack --classic
