@@ -21,10 +21,12 @@ Small script to set up a new Linux desktop/laptop for personal use.
 
 Fix any errors in the script and push them up for next time.
 
-Configure git user.
+Configure git user. Cache the personal access token from Github for one week.
 
 * `git config --global user.email "foo@example.com"`
 * `git config --global user.name "Your Name"`
+* `git config --global credential.helper cache`
+* `git config --global credential.helper 'cache --timeout=604800'`
 
 Then use the GUI tool to make more tweaks. Run it with dconf running in another terminal tab to see which gsettings keys are being modified, then add those above for next time.
 
