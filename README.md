@@ -19,7 +19,7 @@ Small script to set up a new Linux desktop/laptop for personal use.
 * `cd linux-setup`
 * `./setup.sh`
 
-Fix any errors in the script and push them up for next time.
+Fix any errors in the script.
 
 Configure git user. Cache the personal access token from Github for one week.
 
@@ -27,6 +27,8 @@ Configure git user. Cache the personal access token from Github for one week.
 * `git config --global user.name "Your Name"`
 * `git config --global credential.helper cache`
 * `git config --global credential.helper 'cache --timeout=604800'`
+
+Push any changes to the script up for next time.
 
 Then use the GUI tool to make more tweaks. Run it with dconf running in another terminal tab to see which gsettings keys are being modified, then add those above for next time.
 
