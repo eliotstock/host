@@ -14,6 +14,8 @@ sudo snap install code --classic
 
 # Other
 sudo apt-get install -y gnome-tweaks
+sudo snap install telegram-desktop
+sudo snap install discord
 sudo snap install slack --classic
 sudo snap install spotify
 sudo snap install vlc
@@ -26,7 +28,7 @@ pip3 install pyqt5
 sudo apt-get install -y fprintd
 
 # Gnome settings
-gsettings set org.gnome.desktop.interface gtk-theme 'Adwaita-dark'
+gsettings set org.gnome.desktop.interface gtk-theme 'Yaru-dark'
 gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll false
 gsettings set org.gnome.desktop.peripherals.mouse natural-scroll false
 gsettings set org.gnome.desktop.background picture-uri 'file:////usr/share/gnome-control-center/pixmaps/noise-texture-light.png'
@@ -40,6 +42,7 @@ gsettings set org.gnome.nautilus.preferences default-folder-viewer 'list-view'
 gsettings set org.gnome.nautilus.list-view default-zoom-level 'small'
 gsettings set org.gnome.desktop.session idle-delay 900
 gsettings set org.gnome.desktop.screensaver lock-delay 60
+gsettings set org.gnome.shell favorite-apps "['google-chrome.desktop', 'org.gnome.Terminal.desktop', 'org.gnome.Nautilus.desktop', 'code_code.desktop', 'org.gnome.Screenshot.desktop', 'telegram-desktop_telegram-desktop.desktop', 'slack_slack.desktop']"
 
 # Increase the number of watches available to inotify for IDEs
 # Not repeatable
