@@ -19,12 +19,12 @@ PATH=~/Android/sdk/platform-tools:$PATH
 
 # Fuchsia
 # PATH=~/r/zircon-buildtools/mac-x64/qemu/bin:$PATH
-PATH=~/r/fuchsia/.jiri_root/bin:$PATH
-source ~/r/fuchsia/scripts/fx-env.sh
-if [ ! -d ~/r/fuchsia/.ccache ]; then
-   mkdir ~/r/fuchsia/.ccache
-fi
-export CCACHE_DIR=~/r/fuchsia/.ccache
+# PATH=~/r/fuchsia/.jiri_root/bin:$PATH
+# source ~/r/fuchsia/scripts/fx-env.sh
+# if [ ! -d ~/r/fuchsia/.ccache ]; then
+#    mkdir ~/r/fuchsia/.ccache
+# fi
+# export CCACHE_DIR=~/r/fuchsia/.ccache
 
 # Google Cloud SDK
 if [ -f /home/e/r/google-cloud-sdk/path.bash.inc ]; then
