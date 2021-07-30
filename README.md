@@ -4,6 +4,12 @@ Small script to set up a new Linux desktop/laptop for personal use.
 
 ## Read this much from the old machine
 
+* If retaining the Windows installation
+    * Don't be surprised if the machine doesn't give you the boot menu with F1 or F12. Boot into Windows first.
+    * Disable Bitlocker in settings.
+    * Search "boot" in settings, and do an advanced boot.
+    * Boot from USB drive.
+    * Hit enter while the machine is booting.
 * Go for the minimal installation, plus 3P software.
 * Add a Google account straight out of setup. This puts a mountable network drive into the file manager.
 * Sign in to Canonical Livepatch
