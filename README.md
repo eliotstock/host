@@ -62,6 +62,8 @@ Get new firmware from the LVFS stable channel if anything doesn't work (eg. fing
 * `fwupdmgr update`
 * `fwupdmgr disable-remote lvfs`
 
+Go to Settings, Users, e and enable the fingerprint reader.
+
 So that `apt-get source foo` will work, open the "Software & Updates" application and check "Source code"
 
 Follow instructions [here](https://github.com/nodesource/distributions/blob/master/README.md#debinstall) to get Node.js. Don't use the snap for this.
