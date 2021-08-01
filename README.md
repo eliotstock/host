@@ -33,6 +33,7 @@ Configure git user. Cache the personal access token from Github for one week.
 * `git config --global user.name "Your Name"`
 * `git config --global credential.helper cache`
 * `git config --global credential.helper 'cache --timeout=604800'`
+* `git config pull.rebase false`
 
 Push any changes to the script up for next time.
 
