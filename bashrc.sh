@@ -11,7 +11,7 @@ export EDITOR="$VISUAL"
 # Android
 # Keep the gradle version here up to date with the latest that Android Studio downloads.
 # PATH=/Applications/Android\ Studio.app/Contents/gradle/gradle-3.2/bin:$PATH
-PATH=~/Android/sdk/platform-tools:$PATH
+# PATH=~/Android/sdk/platform-tools:$PATH
 # export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 
 # App Engine
@@ -35,6 +35,9 @@ if [ -f /home/e/r/google-cloud-sdk/completion.bash.inc ]; then
 fi
 
 # PATH=/usr/local/bin/make:$PATH
+
+# Solana
+PATH="/home/e/.local/share/solana/install/active_release/bin:$PATH"
 
 alias ls='ls -lah'
 alias emacs='emacs -nw'

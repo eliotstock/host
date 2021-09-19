@@ -70,3 +70,5 @@ So that `apt-get source foo` will work, open the "Software & Updates" applicatio
 Follow instructions [here](https://github.com/nodesource/distributions/blob/master/README.md#debinstall) to get Node.js. Don't use the snap for this.
 
 Then get `nvm` (Node.js version manager) from [here](https://heynode.com/tutorial/install-nodejs-locally-nvm/).
+
+Follow your nose at [rustup.rs](https://rustup.rs/) to get the latest stable Rust, including cargo.
