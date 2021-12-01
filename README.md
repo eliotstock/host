@@ -2,6 +2,12 @@
 
 Small script to set up a new Linux desktop/laptop for personal use.
 
+## Things to test manually before committing to a new release
+
+* External monitor works after locking and unlocking.
+* Screensharing works in Google Meet (Wayland has/had no support for this).
+* Bluetooth headphones work as a headset. Mic works and audio quality is good.
+
 ## Read this much from the old machine
 
 * If retaining the Windows installation
