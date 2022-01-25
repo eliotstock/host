@@ -26,6 +26,8 @@ Small script to set up a new Linux desktop/laptop for personal use.
 
 ## Now switch to the new machine
 
+### Git and this script
+
 * `sudo apt install git`
 * `git clone https://github.com/eliotstock/linux-setup`
 * `cd linux-setup`
@@ -43,14 +45,16 @@ Configure git user. Cache the personal access token from Github for one week.
 
 Push any changes to the script up for next time.
 
+### Gnome config
+
 Then use the GUI tool to make more tweaks. Run it with dconf running in another terminal tab to see which gsettings keys are being modified, then add those above for next time.
 
 * `dconf watch /`
 * `gnome-tweaks`
 
-Go to Settings > Printers and expect the HP Laserjet MFP M125nw to be there, without having to add it, even over WiFi. Print a test page. May no longer be required for 20.04.
+### Printer/scanner
 
-Get a udev rules file for Open OCD, maybe the one from their Sourceforge repo [here](https://sourceforge.net/p/openocd/code/ci/master/tree/contrib/60-openocd.rules), and put it in `/etc/udev/rules.d`. `chmod` it to 644. Make sure your user is in the `plugdev` (and maybe `dailout`) groups. Reboot.
+Go to Settings > Printers and expect the HP Laserjet MFP M125nw to be there, without having to add it, even over WiFi. Print a test page. May no longer be required for 20.04.
 
 Set up scanner manually with:
 
@@ -59,6 +63,12 @@ Set up scanner manually with:
 Then test with:
 
 * `simple-scan`
+
+### udev
+
+Get a udev rules file for Open OCD, maybe the one from their Sourceforge repo [here](https://sourceforge.net/p/openocd/code/ci/master/tree/contrib/60-openocd.rules), and put it in `/etc/udev/rules.d`. `chmod` it to 644. Make sure your user is in the `plugdev` (and maybe `dailout`) groups. Reboot.
+
+### Firmware
 
 Get new firmware from the LVFS stable channel if anything doesn't work (eg. fingerprint reader)
 
@@ -71,10 +81,24 @@ Get new firmware from the LVFS stable channel if anything doesn't work (eg. fing
 
 Go to Settings, Users, e and enable the fingerprint reader.
 
+### Package sources
+
 So that `apt-get source foo` will work, open the "Software & Updates" application and check "Source code"
+
+### Dev env
 
 Follow instructions [here](https://github.com/nodesource/distributions/blob/master/README.md#debinstall) to get Node.js. Don't use the snap for this.
 
 Then get `nvm` (Node.js version manager) from [here](https://heynode.com/tutorial/install-nodejs-locally-nvm/).
 
 Follow your nose at [rustup.rs](https://rustup.rs/) to get the latest stable Rust, including cargo.
+
+### VPN
+
+Install OpenVPN3 by adding their repo accoring to their instructions.
+
+Start a VPN connection with `sudo openvpn3 session-start -c ./vpn.ovpn`
+
+Stop the connection with `sudo openvpn3 session-manage --disconnect -c ./vpn.ovpn`
+
+Check the connection is live with `ifconfig -a`. Check for an adapter called `tun0`.
