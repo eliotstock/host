@@ -18,7 +18,7 @@ Small script to set up a new Linux desktop/laptop for personal use.
     * Hit enter while the machine is booting.
 * Go for the minimal installation, plus 3P software.
 * Add a Google account straight out of setup. This puts a mountable network drive into the file manager.
-* Sign in to Canonical Livepatch
+* Sign in to Ubuntu Single Sign-on and then Canonical Livepatch
 * Open Firefox, search “Chrome download” and download the `.deb` file. Save it, don't open it with the archive manager. 
 * `sudo apt install ./google-chrome*`
 * This also sets up the Google repository for Chrome. Find Chrome in all apps and add it to the favourites.
