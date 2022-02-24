@@ -18,6 +18,7 @@ Small script to set up a new Linux desktop/laptop for personal use.
     * Hit enter while the machine is booting.
 * Go for the minimal installation, plus 3P software.
 * Add a Google account straight out of setup. This puts a mountable network drive into the file manager.
+* While the installation is happening, review the list of apps to install in `setup.sh` in this repo.
 * Sign in to Ubuntu Single Sign-on and then Canonical Livepatch
 * Open Firefox, search “Chrome download” and download the `.deb` file. Save it, don't open it with the archive manager. 
 * `sudo apt install ./google-chrome*`
@@ -43,7 +44,9 @@ Configure git user. Cache the personal access token from Github for one week.
 * `git config --global credential.helper 'cache --timeout=604800'`
 * `git config pull.rebase false`
 
-Push any changes to the script up for next time.
+Push any changes to the script up for next time. If there are no changes, do a push anyway just to get the Github password into the cache.
+
+Open [github.com](https://github.com) in a browser and sign in, using 2FA.
 
 ### Gnome config
 
