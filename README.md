@@ -102,10 +102,10 @@ Generate ssh keys locally. Use no passphrase.
 
 * `ssh-keygen -t rsa -b 4096 -C "[hostname]"`
 
-Push them up to the server(s) you need to connect to. If the server doesn't allow password auth for ssh (ie. `/etc/ssh/sshd_config` already has `PasswordAuthentication` set to `no`), then this won't work of course. You'll need to set that to `yes` and `sudo service sshd restart` first.
+Push them up to the server(s) you need to connect to. This won't work if the server doesn't allow password auth for ssh, ie. `/etc/ssh/sshd_config` already has `PasswordAuthentication` set to `no`. You'll need to set that to `yes` and `sudo service sshd restart` first.
 
-* `scp -P [port] ~/.ssh/id_rsa.pub [username]@[server IP]:/home/[username]/.ssh/authorized_keys`
+* `scp -P [port] ~/.ssh/id_rsa.pub [username]@[server IP]:/home/[username]/.ssh/authorized_keys.[new_host]`
 
-Verify the file is there and you can ssh to the server.
+ssh to the server, verify the file is there and then append it to the existing `.ssh/authorized_keys` file if it exists (`cat ~/.ssh/authorized_keys.[new_host] >> ~/.ssh/authorized_keys`) or create it if not.
 
 Put `/etc/ssh/sshd_config` back to having `PasswordAuthentication` set to `no` and `sudo service sshd restart` if applicable.
