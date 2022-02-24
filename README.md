@@ -96,12 +96,16 @@ Then get `nvm` (Node.js version manager) from [here](https://heynode.com/tutoria
 
 Follow your nose at [rustup.rs](https://rustup.rs/) to get the latest stable Rust, including cargo.
 
-### VPN
+### ssh keys
 
-Install OpenVPN3 by adding their repo accoring to their instructions.
+Generate ssh keys locally. Use no passphrase.
 
-Start a VPN connection with `sudo openvpn3 session-start -c ./vpn.ovpn`
+* `ssh-keygen -t rsa -b 4096 -C "[hostname]"`
 
-Stop the connection with `sudo openvpn3 session-manage --disconnect -c ./vpn.ovpn`
+Push them up to the server(s) you need to connect to. If the server doesn't allow password auth for ssh (ie. `/etc/ssh/sshd_config` already has `PasswordAuthentication` set to `no`), then this won't work of course. You'll need to set that to `yes` and `sudo service sshd restart` first.
 
-Check the connection is live with `ifconfig -a`. Check for an adapter called `tun0`.
+* `scp -P [port] ~/.ssh/id_rsa.pub [username]@[server IP]:/home/[username]/.ssh/authorized_keys`
+
+Verify the file is there and you can ssh to the server.
+
+Put `/etc/ssh/sshd_config` back to having `PasswordAuthentication` set to `no` and `sudo service sshd restart` if applicable.
