@@ -6,8 +6,8 @@ sudo apt-get install -y git
 sudo apt-get install -y emacs
 sudo apt-get install -y virtualenv
 sudo apt-get install -y cloc
-sudo snap install android-studio --classic
 sudo snap install code --classic
+# sudo snap install android-studio --classic
 
 # Don't use the Node.js snap
 # sudo snap install node --classic --channel=8/stable
@@ -16,7 +16,7 @@ sudo snap install code --classic
 sudo apt-get install -y gnome-tweaks
 sudo snap install telegram-desktop
 sudo snap install discord
-sudo snap install slack --classic
+# sudo snap install slack --classic
 sudo snap install spotify
 sudo snap install vlc
 sudo apt-get install -y simple-scan
