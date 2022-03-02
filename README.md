@@ -10,6 +10,8 @@ Small script to set up a new Linux desktop/laptop for personal use.
 
 ## Read this much from the old machine
 
+* If reinstalling over an existing Ubuntu instance
+    * Back up `~/.ssh` to a USB drive
 * If retaining the Windows installation
     * Don't be surprised if the machine doesn't give you the boot menu with F1 or F12. Boot into Windows first.
     * Disable Bitlocker in settings.
@@ -98,7 +100,9 @@ Follow your nose at [rustup.rs](https://rustup.rs/) to get the latest stable Rus
 
 ### ssh keys
 
-Generate ssh keys locally. Use no passphrase.
+If reinstalling over an existing Ubuntu instance, restore `~/.ssh` from the USB drive.
+
+Otherwise, generate ssh keys locally. Use no passphrase.
 
 * `ssh-keygen -t rsa -b 4096 -C "[hostname]"`
 
