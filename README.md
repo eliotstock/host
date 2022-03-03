@@ -10,9 +10,11 @@ Small script to set up a new Linux desktop/laptop for personal use.
 
 ## Read this much from the old machine
 
-* If reinstalling over an existing Ubuntu instance
-    * Back up `~/.ssh` to a USB drive
-* If retaining the Windows installation
+* If reinstalling over an existing Ubuntu instance:
+    * Back up `~/.ssh` to a USB drive. The Ubuntu installer image has a writable partition you can use for this.
+    * `sudo mkdir /media/[username]/writable/dot-ssh`
+    * `sudo cp -r ~/.ssh/* /media/e/writable/dot-ssh` (this preserves the file modes)
+* If retaining the Windows installation:
     * Don't be surprised if the machine doesn't give you the boot menu with F1 or F12. Boot into Windows first.
     * Disable Bitlocker in settings.
     * Search "boot" in settings, and do an advanced boot.
@@ -100,9 +102,13 @@ Follow your nose at [rustup.rs](https://rustup.rs/) to get the latest stable Rus
 
 ### ssh keys
 
-If reinstalling over an existing Ubuntu instance, restore `~/.ssh` from the USB drive.
+If reinstalling over an existing Ubuntu instance, restore `~/.ssh` from old instance.
 
-Otherwise, generate ssh keys locally. Use no passphrase.
+* The Ubuntu installer image has a writable partition you can use for this.
+* `mkdir ~/.ssh`
+* `sudo cp -r /media/[username]/writable/dot-ssh ~/.ssh` (this preserves the file modes)
+
+Otherwise, generate new ssh keys locally. Use no passphrase.
 
 * `ssh-keygen -t rsa -b 4096 -C "[hostname]"`
 
