@@ -11,9 +11,11 @@ Small script to set up a new Linux desktop/laptop for personal use.
 ## Read this much from the old machine
 
 * If reinstalling over an existing Ubuntu instance:
-    * Back up `~/.ssh` to a USB drive. The Ubuntu installer image has a writable partition you can use for this.
+    * Back up `~/.ssh` to a USB drive. The Ubuntu installer image has a 25GB writable partition you can use for this.
     * `sudo mkdir /media/[username]/writable/dot-ssh`
     * `sudo cp -r ~/.ssh/* /media/e/writable/dot-ssh` (this preserves the file modes)
+    * Do the same for any `.env` files in local repos.
+    * Larger files can go to a back up machine over `scp`, but `sshd` will need to be running there.
 * If retaining the Windows installation:
     * Don't be surprised if the machine doesn't give you the boot menu with F1 or F12. Boot into Windows first.
     * Disable Bitlocker in settings.
