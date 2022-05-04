@@ -16,6 +16,7 @@ If you wait long enough the Software Updater app will offer to upgrade Ubuntu. B
 * `sudo apt upgrade`
 * `sudo apt dist-upgrade`
 * `sudo apt autoremove`
+* `sudo do-release-upgrade`
 
 ## Read this much from the old machine
 
