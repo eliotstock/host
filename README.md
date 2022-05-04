@@ -8,6 +8,15 @@ Small script to set up a new Linux desktop/laptop for personal use.
 * Screensharing works in Google Meet (Wayland has/had no support for this).
 * Bluetooth headphones work as a headset. Mic works and audio quality is good.
 
+## To upgrade in-place rather than reinstall
+
+If you wait long enough the Software Updater app will offer to upgrade Ubuntu. Before that, or if it doesn't:
+
+* `sudo apt update`
+* `sudo apt upgrade`
+* `sudo apt dist-upgrade`
+* `sudo apt autoremove`
+
 ## Read this much from the old machine
 
 * If reinstalling over an existing Ubuntu instance:
