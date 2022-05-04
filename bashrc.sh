@@ -39,6 +39,9 @@ fi
 # Solana
 PATH="/home/e/.local/share/solana/install/active_release/bin:$PATH"
 
+# Node.js. Fix 'FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory'
+export NODE_OPTIONS=--max_old_space_size=4096
+
 alias ls='ls -lah'
 alias emacs='emacs -nw'
 
