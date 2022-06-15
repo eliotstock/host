@@ -112,6 +112,8 @@ Then get `nvm` (Node.js version manager) from [here](https://heynode.com/tutoria
 
 Follow your nose at [rustup.rs](https://rustup.rs/) to get the latest stable Rust, including cargo.
 
+Follow your nose at [docker.com](https://docs.docker.com/desktop/linux/install/ubuntu/) to get Docker set up.
+
 ### ssh keys
 
 If reinstalling over an existing Ubuntu instance, restore `~/.ssh` from old instance.
