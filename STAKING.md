@@ -18,6 +18,18 @@
     1. Use the [redacted] SSH public key from GitHub
     1. No extra snaps
 1. Remember `Ctrl-Alt F1` through `F6` are there for switching to new terminals and multitasking.
+1. Partition and mount the big drive
+    1. `lsblck` and confirm the big drive isn't mounted yet and is called `sda`
+    1. `sudo parted --list` and confirm it's not partitioned yet
+    1. `sudo fdisk /dev/sda`, `n` for new partition, `p` for primary, `1`, default first sector, default last sector, `w` to write.
+    1. `sudo parted /dev/sda`, `mklabel gpt`, `unit TB`, `mkpart`, `primary`, `ext4`, `0`, `2`, `print` and check output, `quit`.
+    1. Format the partition: `sudo mkfs -t ext4 /dev/sda`
+    1. Get the UUID for the drive from `sudo blkid`
+    1. Add something like this to the bottom of `/etc/fstab`: `/dev/disk/by-uuid/8723beb1-8bb4-4a34-8c01-c309361eedc5 /data ext4 defaults 0 2`
+    1. `sudo mount -a` and confirm the drive is mounted with `ls -lah /data`
+    1. Make the drive writable by your user with `sudo chown -R [USERNAME]:[USERNAME] /data`
+    1. `df -H` and confirm the drive is there and mostly free space
+    1. Reboot and make sure the drive mounts again
 1. Disable `cloud-init`
     1. `sudo touch /etc/cloud/cloud-init.disabled`
     1. `sudo reboot`
@@ -35,7 +47,6 @@
         1. We might also consider using 9.9.9.9 in future (Quad9, does filtering of known malware sites).
         1. `.yaml` files use spaces for indentation (either 2 or 4), not tabs.
     1. `sudo netplan apply`
-    1. Don't plug the ethernet cable in yet though
 ```
 network:
   version: 2
@@ -60,16 +71,14 @@ network:
     1. `sudo ufw default deny incoming`
     1. `sudo ufw default allow outgoing`
     1. `sudo ufw allow [your ssh port]/tcp comment 'ssh'`
+    1. `sudo ufw allow 30303 comment 'execution client'`
+    1. `sudo ufw allow 9000 comment 'consensus client'`
     1. `sudo ufw enable`
     1. Note that `http` and `https` are absent above.
     1. Check which ports are accessible with `sudo ufw status`
     1. Also block pings: `sudo nano /etc/ufw/before.rules`, find the line reading `A ufw-before-input -p icmp --icmp-type echo-request -j ACCEPT` and change `ACCEPT` to `DROP`
     1. `sudo ufw reload`
 1. If you chose the wrong hostname during the installer, change it now. `sudo nano /etc/hostname` and pick a cool hostname.
-1. Connect to the internet
-    1. Plug the ethernet cable in and reboot: `sudo reboot`
-    1. Check the output of `ip a show`.
-    1. Now you can set your ssh alias on the client(s).
 1. Update packages and get some stuff
     1. `sudo apt update`
     1. `sudo apt upgrade` (make coffee)
@@ -112,19 +121,13 @@ network:
     1. Assuming your Github user auth is configured like mine, copy your personal access token to the clipboard and `ssh` into the host
     1. Pull any private repo: `git clone [repo's https url] [repo dir]`
     1. From inside each repo working directory: `git config pull.rebase false`
-1. (Optional) Set up a Node.js environment
-    1. Install `nvm`, the Node.js version manager.
-    1. Copy the `curl` script from https://github.com/nvm-sh/nvm and execute it.
-    1. Exit and restart the terminal to get `nvm` onto the path.
-    1. `cd` to this repo and `nvm use` then `nvm install [version]`
-    1. `sudo apt install make gcc g++ python dpkg-dev`
-    1. Edit your apt sources list (in the .d directory) to add the source servers.
-        1. `sudo cp /etc/apt/sources.list /etc/apt/sources.list.d/foo.list`
-        1. `sudo nano /etc/apt/sources.list.d/foo.list`
-        1. Comment out all the `deb` lines, uncomment all the `deb-src` lines and save
-        1. `sudo apt update`
-    1. (Optional) If re-installing, don't forget to copy up the `dro.log` file to `out`.
-    1. Switch to the `README.md` in this repo to configure and run the dro.
-1. (Optional) Switch the display to portrait mode.
-    1. Test this works first: `sudo echo 3 | sudo tee /sys/class/graphics/fbcon/rotate_all`
-    1. Consider a sysvinit script or similar for this. The Raspberry Pi bootloader can't be configured to do this.
+1. Forward ports from the router to the host:
+    1. Any execution client: 30303 (both TCP and UDP)
+    1. Lighthouse (consensus client): 9000 (both TCP and UDP)
+    1. Only while travelling, SSH: [redacted] TCP
+1. Install the execution client, Nethermind
+    1. Follow instructions here: https://docs.nethermind.io/nethermind/first-steps-with-nethermind/getting-started. Use the Ubuntu repo.
+    1. Create a directory for the Rocks DB: `mkdir /data/nethermind`
+    1. Run the client as your normal user `nethermind --config goerli --baseDbPath /data/nethermind --JsonRpc.Enabled true`
+1. TODO: Install the consensus client, Lighthouse.
+
