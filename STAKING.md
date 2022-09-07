@@ -129,5 +129,40 @@ network:
     1. Follow instructions here: https://docs.nethermind.io/nethermind/first-steps-with-nethermind/getting-started. Use the Ubuntu repo.
     1. Create a directory for the Rocks DB: `mkdir /data/nethermind`
     1. Run the client as your normal user `nethermind --config goerli --baseDbPath /data/nethermind --JsonRpc.Enabled true`
-1. TODO: Install the consensus client, Lighthouse.
-
+    1. Follow instructions for `systemd` running here: https://docs.nethermind.io/nethermind/first-steps-with-nethermind/manage-nethermind-with-systemd, except:
+        1. Create the `nethermind` user with a specific home dir: `sudo useradd -m -s /bin/bash -d /data/nethermind nethermind`
+        1. Note that `adduser` accepts ` --disabled-password` but the lower level `useradd` does not.
+    1. Add the `nethermind` user to sudoers: `sudo usermod -aG sudo nethermind`
+    1. TODO: Maybe not: Set a password for the `nethermind` user
+        1. `sudo -i`
+        1. `passwd nethermind`
+    1. Change to the `nethermind` user: `sudo su nethermind`
+    1. Run the serivce: `sudo service nethermind start`
+    1. Check the output: `journalctl -u nethermind -f`
+    1. Enable autorun: `sudo systemctl enable nethermind`
+    1. TODO: Blocked on docs bug: https://github.com/NethermindEth/nethermind/issues/4482
+    1. Disable the `systemd` unit while it isn't working on boot: `sudo systemctl disable nethermind`
+1. Install the consensus client, Lighthouse.
+    1. Go to https://github.com/sigp/lighthouse/releases and find the latest (non-portable) release, with suffix `x86_64-unknown-linux-gnu`. Download, extract and delete  it on the host.
+        1. `wget https://github.com/sigp/lighthouse/releases/download/v3.1.0/lighthouse-v3.1.0-x86_64-unknown-linux-gnu.tar.gz`
+        1. `tar -xvf lighthouse-v3.1.0-x86_64-unknown-linux-gnu.tar.gz`
+        1. `rm lighthouse-v3.1.0-x86_64-unknown-linux-gnu.tar.gz`
+    1. Make sure it runs: `./lighthouse --version`
+    1. Move the binary out of your home dir:
+        1. `sudo mv ./lighthouse /usr/bin`
+        1. `sudo chown root:root /usr/bin/lighthouse`
+    1. Do the key management stuff: https://lighthouse-book.sigmaprime.io/key-management.html
+        1. Create a password file for this network: `nano stake-goerli.pass` and `chmod 600 ./stake-goerli.pass`
+        1. `lighthouse --network prater account wallet create --name stake-goerli --password-file stake-goerli.pass`
+        1. Write down mnemonic -> sock drawer (not really obvs)
+        1. `lighthouse --network prater account validator create --wallet-name stake-goerli --wallet-password stake-goerli.pass --count 1`
+1. Do the Staking Launchpad stuff at: https://launchpad.ethereum.org/en/generate-keys
+    1. Download, extract and delete the staking deposit CLI.
+        1. `wget https://github.com/ethereum/staking-deposit-cli/releases/download/v2.3.0/staking_deposit-cli-76ed782-linux-amd64.tar.gz`
+        1. `tar -xvf staking_deposit-cli-76ed782-linux-amd64.tar.gz`
+        1. `rm staking_deposit-cli-76ed782-linux-amd64.tar.gz`
+    1. TODO: continue.
+1. Or just install and run `sedge`: https://docs.sedge.nethermind.io/docs/quickstart/install-guide
+    1. Expect `segde` to use about 4TB per month in bandwidth
+    1. To start the `sedge` containers once installed: `sudo docker compose -f docker-compose-scripts/docker-compose.yml up -d execution consensus`
+    1. To stop them: `sudo docker compose -f docker-compose-scripts/docker-compose.yml down`
