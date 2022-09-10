@@ -162,6 +162,14 @@ network:
         1. `tar -xvf staking_deposit-cli-76ed782-linux-amd64.tar.gz`
         1. `rm staking_deposit-cli-76ed782-linux-amd64.tar.gz`
     1. TODO: continue.
+1. Run everything. For mainnet:
+    1. `tmux`, create three panes with `C-b "`, move around the panes with `C-b [arrow keys]`, kill a pane with `C-b d`
+    1. `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true`
+    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --directory <PATH-TO-LAUNCHPAD-KEYS-DIRECTORY>`
+    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --staking`
+    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet vc`
+1. To stop staking:
+    1. `lighthouse account validator exit`
 1. Or just install and run `sedge`: https://docs.sedge.nethermind.io/docs/quickstart/install-guide
     1. Expect `segde` to use about 4TB per month in bandwidth
     1. To start the `sedge` containers once installed: `sudo docker compose -f docker-compose-scripts/docker-compose.yml up -d execution consensus`
