@@ -2,6 +2,11 @@
 
 1. (Optional) Update the firmware in your router, factory reset, reconfigure.
 1. Get an Intel NUC.
+1. Set the machine to restart after a power failure.
+    1. `F2` during boot to get into BIOS settings
+    1. Power > Secondary power settings
+    1. After power failure: Power on
+    1. `F10` to save and exit
 1. (Optional) If re-installing, back up the following from the existing target.
     1. `~/[repo_dir]/dro/out/dro.log`
     1. `~/[repo_dir]/dro/out/database.db`
