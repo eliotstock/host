@@ -88,6 +88,9 @@ network:
     1. `sudo apt update`
     1. `sudo apt upgrade` (make coffee)
     1. `sudo apt install net-tools emacs git`
+1. Make sure that `unattended-updates` works for more than just security updates
+    1. `sudo nano /etc/apt/apt.conf.d/50unattended-upgrades`
+    1. Uncomment this line: `        "${distro_id}:${distro_codename}-updates";`
 1. (Optional and only required if you didn't restore SSH keys from GitHub during installation) Set up ssh keys for all client machines from which you'll want to connect.
     1. If re-installing, restore the `~/.ssh/authorized_keys` file you backed up earlier, using `scp`.
         1. Try connecting using `ssh` first
