@@ -176,7 +176,11 @@ Unattended-Upgrade::Origins-Pattern {
         1. `rm staking_deposit-cli-76ed782-linux-amd64.tar.gz`
     1. TODO: continue.
 1. Run everything. For mainnet:
-    1. `tmux`, create three panes with `C-b "`, move around the panes with `C-b [arrow keys]`, kill a pane with `C-b d`
+    1. Run `tmux`. Refresher:
+        1. Create three panes with `C-b "`
+        1. Move around the panes with `C-b [arrow keys]`
+        1. Kill a pane with `C-b C-d`
+        1. Dettach from the session with `C-b d`
     1. `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true`
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --directory <PATH-TO-LAUNCHPAD-KEYS-DIRECTORY>`
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --staking`
