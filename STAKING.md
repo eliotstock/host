@@ -170,24 +170,38 @@ Unattended-Upgrade::Origins-Pattern {
         1. Write down mnemonic -> sock drawer (not really obvs)
         1. `lighthouse --network prater account validator create --wallet-name stake-goerli --wallet-password stake-goerli.pass --count 1`
 1. Do the Staking Launchpad stuff at: https://launchpad.ethereum.org/en/generate-keys
-    1. Download, extract and delete the staking deposit CLI.
+    1. Download, extract and tidy up the staking deposit CLI.
         1. `wget https://github.com/ethereum/staking-deposit-cli/releases/download/v2.3.0/staking_deposit-cli-76ed782-linux-amd64.tar.gz`
         1. `tar -xvf staking_deposit-cli-76ed782-linux-amd64.tar.gz`
         1. `rm staking_deposit-cli-76ed782-linux-amd64.tar.gz`
-    1. TODO: continue.
-1. Run everything. For mainnet:
+        1. `mv staking_deposit-cli-76ed782-linux-amd64/deposit .`
+        1. `rmdir staking_deposit-cli-76ed782-linux-amd64`
+    1. Run it and record the mnemonic.
+        1. `./deposit new-mnemoic --num_validators 1 --chain mainnet`
+    1. This will generate:
+        1. `~/validator_keys/deposit_data-*.json`
+        1. `~/validator_keys/keystore-m_12381_3600_0_0_0-1663727039.json`
+1. Just once, import the deposit keystore into the validator:
+    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --directory ~/validator_keys` and enter the password for the depsoit keystore (ie. NOT the validator keystore)
+1. Just once, generate a JWT token to be used by the clients:
+    1. `openssl rand -hex 32 | tr -d "\n" > "/home/[username]/jwtsecret"`
+1. Each time the server starts, run these three processes. For mainnet:
     1. Run `tmux`. Refresher:
         1. Create three panes with `C-b "`
         1. Move around the panes with `C-b [arrow keys]`
         1. Kill a pane with `C-b C-d`
         1. Dettach from the session with `C-b d`
-    1. `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true`
-    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --directory <PATH-TO-LAUNCHPAD-KEYS-DIRECTORY>`
-    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --staking`
+    1. `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true --JsonRpc.JwtSecretFile /home/[username]/jwtsecret`
+        1. This one will prompt for your password in order to become root, which it probably shouldn't.
+        1. You can wait for this to sync before you continue, but you don't need to. The beacon node will retry if the execution client isn't sync'ed yet.
+        1. Will expose:
+            1. http://127.0.0.1:8545 (JSON RPC)
+            1. http://localhost:8551 (Also JSON RPC?)
+    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /home/[username]/jwtsecret`
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet vc`
 1. To stop staking:
     1. `lighthouse account validator exit`
 1. Or just install and run `sedge`: https://docs.sedge.nethermind.io/docs/quickstart/install-guide
-    1. Expect `segde` to use about 4TB per month in bandwidth
+    1. Expect `segde` to use about 1TB per month in bandwidth. It'll be more while sync'ing, then decrease.
     1. To start the `sedge` containers once installed: `sudo docker compose -f docker-compose-scripts/docker-compose.yml up -d execution consensus`
     1. To stop them: `sudo docker compose -f docker-compose-scripts/docker-compose.yml down`
