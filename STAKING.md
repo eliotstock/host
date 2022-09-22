@@ -78,6 +78,8 @@ network:
     1. `sudo ufw allow [your ssh port]/tcp comment 'ssh'`
     1. `sudo ufw allow 30303 comment 'execution client'`
     1. `sudo ufw allow 9000 comment 'consensus client'`
+    1. `sudo ufw allow 8545/tcp comment 'execution client health'`
+    1. `sudo ufw allow 8551/tcp comment 'execution client health'`
     1. `sudo ufw enable`
     1. Note that `http` and `https` are absent above.
     1. Check which ports are accessible with `sudo ufw status`
@@ -191,12 +193,13 @@ Unattended-Upgrade::Origins-Pattern {
         1. Move around the panes with `C-b [arrow keys]`
         1. Kill a pane with `C-b C-d`
         1. Dettach from the session with `C-b d`
-    1. `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true --JsonRpc.JwtSecretFile /home/[username]/jwtsecret`
+    1. `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true --JsonRpc.JwtSecretFile /home/[username]/jwtsecret --JsonRpc.Host [host local IP address]`
         1. This one will prompt for your password in order to become root, which it probably shouldn't.
         1. You can wait for this to sync before you continue, but you don't need to. The beacon node will retry if the execution client isn't sync'ed yet.
-        1. Will expose:
-            1. http://127.0.0.1:8545 (JSON RPC)
-            1. http://localhost:8551 (Also JSON RPC?)
+        1. Nethermind will expose:
+            1. http://[host local IP address]:8545 (JSON RPC with `/health` and `/healthchecks-ui`)
+            1. http://[host local IP address]:8551 (JSON RPC)
+        1. Once up and running, check health with `curl http://localhost:8545/health` or go to http://localhost:8545/healthchecks-ui in a browser if you have a GUI.
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /home/[username]/jwtsecret`
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet vc`
 1. To stop staking:
