@@ -35,6 +35,10 @@
     1. Make the drive writable by your user with `sudo chown -R [USERNAME]:[USERNAME] /data`
     1. `df -H` and confirm the drive is there and mostly free space
     1. Reboot and make sure the drive mounts again
+1. Test the performance of the big drive
+    1. `sudo apt install fio`
+    1. `fio --randrepeat=1 --ioengine=libaio --direct=1 --gtod_reduce=1 --name=test --filename=random_read_write.fio --bs=4k --iodepth=64 --size=4G --readwrite=randrw --rwmixread=75`
+    1. Output is explained here: https://tobert.github.io/post/2014-04-17-fio-output-explained.html
 1. Disable `cloud-init`
     1. `sudo touch /etc/cloud/cloud-init.disabled`
     1. `sudo reboot`
@@ -193,7 +197,7 @@ Unattended-Upgrade::Origins-Pattern {
         1. Move around the panes with `C-b [arrow keys]`
         1. Kill a pane with `C-b C-d`
         1. Dettach from the session with `C-b d`
-    1. `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true --JsonRpc.JwtSecretFile /home/[username]/jwtsecret --JsonRpc.Host [host local IP address]`
+    1. `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true --JsonRpc.JwtSecretFile /home/[username]/jwtsecret --JsonRpc.Host [host local IP address] --log DEBUG`
         1. This one will prompt for your password in order to become root, which it probably shouldn't.
         1. You can wait for this to sync before you continue, but you don't need to. The beacon node will retry if the execution client isn't sync'ed yet.
         1. Nethermind will expose:
