@@ -133,3 +133,11 @@ Push them up to the server(s) you need to connect to. This won't work if the ser
 ssh to the server, verify the file is there and then append it to the existing `.ssh/authorized_keys` file if it exists (`cat ~/.ssh/authorized_keys.[new_host] >> ~/.ssh/authorized_keys`) or create it if not.
 
 Put `/etc/ssh/sshd_config` back to having `PasswordAuthentication` set to `no` and `sudo service sshd restart` if applicable.
+
+### tmux config
+
+Make mouse wheel scrolling work in tmux.
+
+* `nano ~/.tmux.conf`
+* Add `set -g mouse on`
+* Kill any running tmux sessions to pick up the change: `tmux kill-server`
