@@ -204,7 +204,9 @@ Unattended-Upgrade::Origins-Pattern {
             1. http://[host local IP address]:8545 (JSON RPC with `/health` and `/healthchecks-ui`)
             1. http://[host local IP address]:8551 (JSON RPC)
         1. Once up and running, check health with `curl http://localhost:8545/health` or go to http://localhost:8545/healthchecks-ui in a browser if you have a GUI.
-    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /home/[username]/jwtsecret`
+    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /home/[username]/jwtsecret --checkpoint-sync-url https://beaconstate.ethstaker.cc`
+        1. Get the checkpoint sync URL from https://eth-clients.github.io/checkpoint-sync-endpoints/
+        1. See this thread in the Lighthouse Discord for more details o checks: https://discord.com/channels/605577013327167508/605577013331361793/1019755522985050142
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet vc`
 1. To stop staking:
     1. `lighthouse account validator exit`
