@@ -191,22 +191,26 @@ Unattended-Upgrade::Origins-Pattern {
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --directory ~/validator_keys` and enter the password for the depsoit keystore (ie. NOT the validator keystore)
 1. Just once, generate a JWT token to be used by the clients:
     1. `openssl rand -hex 32 | tr -d "\n" > "/home/[username]/jwtsecret"`
+1. The first time you sync only, or if you've fallen far behind, use a checkpoint sync endpoint for the CL client:
+    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /home/[username]/jwtsecret --checkpoint-sync-url https://beaconstate.ethstaker.cc`
+        1. Get the checkpoint sync URL from https://eth-clients.github.io/checkpoint-sync-endpoints/
+        1. See this thread in the Lighthouse Discord for more details o checks: https://discord.com/channels/605577013327167508/605577013331361793/1019755522985050142
 1. Each time the server starts, run these three processes. For mainnet:
     1. Run `tmux`. Refresher:
         1. Create three panes with `C-b "`
         1. Move around the panes with `C-b [arrow keys]`
         1. Kill a pane with `C-b C-d`
         1. Dettach from the session with `C-b d`
-    1. `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true --JsonRpc.JwtSecretFile /home/[username]/jwtsecret --JsonRpc.Host [host local IP address] --log DEBUG`
+    1. `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true --JsonRpc.JwtSecretFile /home/[username]/jwtsecret --JsonRpc.Host [host local IP address]`
         1. This one will prompt for your password in order to become root, which it probably shouldn't.
+        1. You may add `--log DEBUG` if you run into trouble.
         1. You can wait for this to sync before you continue, but you don't need to. The beacon node will retry if the execution client isn't sync'ed yet.
         1. Nethermind will expose:
             1. http://[host local IP address]:8545 (JSON RPC with `/health` and `/healthchecks-ui`)
             1. http://[host local IP address]:8551 (JSON RPC)
         1. Once up and running, check health with `curl http://localhost:8545/health` or go to http://localhost:8545/healthchecks-ui in a browser if you have a GUI.
-    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /home/[username]/jwtsecret --checkpoint-sync-url https://beaconstate.ethstaker.cc`
-        1. Get the checkpoint sync URL from https://eth-clients.github.io/checkpoint-sync-endpoints/
-        1. See this thread in the Lighthouse Discord for more details o checks: https://discord.com/channels/605577013327167508/605577013331361793/1019755522985050142
+    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /home/[username]/jwtsecret`
+        1. Note that `localhost` is correct here, even though the EL client used `[host local IP address]`
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet vc`
 1. To stop staking:
     1. `lighthouse account validator exit`
