@@ -209,10 +209,17 @@ Unattended-Upgrade::Origins-Pattern {
             1. `curl http://192.168.20.41:8545/health`
             1. Or if you have a GUI and browser: http://192.168.20.41:8545/healthchecks-ui
         1. Port `8551` is also open for JSON RPC.
-    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet --debug-level warn bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret`
-        1. Note that `localhost` is correct here, even though the EL client used `192.168.20.41`
+    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet --debug-level warn bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --http`
+        1. Note that `localhost` is correct here, even though the EL client used `192.168.20.41`.
         1. Omit `--debug-level warn` initially to see that all is well.
+        1. You can now use the Beacon Node API on http://localhost:5052 but only on the local machine. Do not NAT this through to the internet oy you'll get DDoS'ed.
+        1. Once you know your validator node index, you can get the current balance of your validator with `curl http://localhost:5052/eth/v1/beacon/states/head/validators/{index}`.
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet vc`
+1. Check the ports you're listening on with `sudo lsof -nP -iTCP -sTCP:LISTEN +c0 | grep IPv4`
+    1. `192.168.20.41:8545 (LISTEN)`: EL client, JSON RPC for general use
+    1. `127.0.0.1:8551 (LISTEN)`: EL client, JSON RPC for the CL client only
+    1. `*:9000 (LISTEN)`: CL client, for the EL client
+    1. `127.0.0.1:5052 (LISTEN)`: CL client, Beacon Node API for general use
 1. To stop staking:
     1. `lighthouse account validator exit`
 1. Or just install and run `sedge`: https://docs.sedge.nethermind.io/docs/quickstart/install-guide
