@@ -175,6 +175,12 @@ Unattended-Upgrade::Origins-Pattern {
         1. `lighthouse --network prater account wallet create --name stake-goerli --password-file stake-goerli.pass`
         1. Write down mnemonic -> sock drawer (not really obvs)
         1. `lighthouse --network prater account validator create --wallet-name stake-goerli --wallet-password stake-goerli.pass --count 1`
+1. Install MEV-Boost.
+    1. Download the latest binary from https://github.com/flashbots/mev-boost/releases
+    1. Extract and delete the tarball: `tar -xvf mev* && rm mev*.tar.gz`
+    1. Move the binary: `mv mev-boost /data`
+    1. Pick a relay to use from: https://github.com/remyroy/ethstaker/blob/main/MEV-relay-list.md. Get the relay URL for later.
+    1. All bloXroute relays were unreliable at the time of writing. Stick to Flashbots, even though they're compliant (boo!).
 1. Do the Staking Launchpad stuff at: https://launchpad.ethereum.org/en/generate-keys
     1. Download, extract and tidy up the staking deposit CLI.
         1. `wget https://github.com/ethereum/staking-deposit-cli/releases/download/v2.3.0/staking_deposit-cli-76ed782-linux-amd64.tar.gz`
@@ -195,7 +201,7 @@ Unattended-Upgrade::Origins-Pattern {
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --checkpoint-sync-url https://beaconstate.ethstaker.cc`
         1. Get the checkpoint sync URL from https://eth-clients.github.io/checkpoint-sync-endpoints/
         1. See this thread in the Lighthouse Discord for more details o checks: https://discord.com/channels/605577013327167508/605577013331361793/1019755522985050142
-1. Each time the server starts, run these three processes. For mainnet:
+1. Each time the server starts, run these four processes. For mainnet:
     1. Run `tmux`. Refresher:
         1. Create three panes with `C-b "`
         1. Move around the panes with `C-b [arrow keys]`
@@ -209,17 +215,19 @@ Unattended-Upgrade::Origins-Pattern {
             1. `curl http://192.168.20.41:8545/health`
             1. Or if you have a GUI and browser: http://192.168.20.41:8545/healthchecks-ui
         1. Port `8551` is also open for JSON RPC.
-    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet --debug-level warn bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --http`
+    1. `/data/mev-boost -mainnet -relay-check -relays https://0xac6e77dfe25ecd6110b8e780608cce0dab71fdd5ebea22a16c0205200f2f8e2e3ad3b71d3499c54ad14d6c21b41a37ae@boost-relay.flashbots.net`
+    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet --debug-level warn bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --http --builder http://locahost:18550`
         1. Note that `localhost` is correct here, even though the EL client used `192.168.20.41`.
         1. Omit `--debug-level warn` initially to see that all is well.
         1. You can now use the Beacon Node API on http://localhost:5052 but only on the local machine. Do not NAT this through to the internet oy you'll get DDoS'ed.
         1. Once you know your validator node index, you can get the current balance of your validator with `curl http://localhost:5052/eth/v1/beacon/states/head/validators/{index}`.
-    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet vc`
-1. Check the ports you're listening on with `sudo lsof -nP -iTCP -sTCP:LISTEN +c0 | grep IPv4`
+    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet vc --builder-proposals`
+1. Check the ports you're listening on with `sudo lsof -nP -iTCP -sTCP:LISTEN +c0 | grep IPv4`. Ignoring the OS services such as `sshd`, you should have:
     1. `192.168.20.41:8545 (LISTEN)`: EL client, JSON RPC for general use
     1. `127.0.0.1:8551 (LISTEN)`: EL client, JSON RPC for the CL client only
     1. `*:9000 (LISTEN)`: CL client, for the EL client
     1. `127.0.0.1:5052 (LISTEN)`: CL client, Beacon Node API for general use
+    1. `127.0.0.1:18550 (LISTEN)`: MEV Boost
 1. To stop staking:
     1. `lighthouse account validator exit`
 1. Or just install and run `sedge`: https://docs.sedge.nethermind.io/docs/quickstart/install-guide
