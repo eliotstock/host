@@ -114,6 +114,15 @@ Follow your nose at [rustup.rs](https://rustup.rs/) to get the latest stable Rus
 
 Follow your nose at [docker.com](https://docs.docker.com/desktop/linux/install/ubuntu/) to get Docker set up.
 
+Downgrade to Python 3.9 (from 3.10) to support AWS SAM, assuming you can live without Pythong 3.10 altogether.
+
+* `sudo add-apt-repository ppa:deadsnakes/ppa`
+* `sudo apt-get update`
+* `sudo apt-get install python3.9`
+* `sudo rm /usr/bin/python3`
+* `sudo ln -s /usr/bin/python3.9 /usr/bin/python3`
+* Follow instructions at https://pip.pypa.io/en/stable/installation/ to install pip again.
+
 ### ssh keys
 
 If reinstalling over an existing Ubuntu instance, restore `~/.ssh` from old instance.
