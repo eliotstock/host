@@ -228,6 +228,16 @@ Unattended-Upgrade::Origins-Pattern {
     1. `*:9000 (LISTEN)`: CL client, for the EL client
     1. `127.0.0.1:5052 (LISTEN)`: CL client, Beacon Node API for general use
     1. `127.0.0.1:18550 (LISTEN)`: MEV Boost
+1. Subscribe to the repos to get an email on a new release. For each of these, drop down 'Watch', go to 'Custom' and check 'Releases'.
+    1. https://github.com/nethermindeth/nethermind
+    1. https://github.com/sigp/lighthouse
+    1. https://github.com/flashbots/mev-boost
+1. On each new release:
+    1. Follow the instructions above again to get a new binary.
+    1. Overwrite the existing binary.
+    1. Wait till the end of an epoch.
+    1. Stop the process.
+    1. Restart the process.
 1. To stop staking:
     1. `lighthouse account validator exit`
 1. Or just install and run `sedge`: https://docs.sedge.nethermind.io/docs/quickstart/install-guide
