@@ -71,6 +71,19 @@ Then use the GUI tool to make more tweaks. Run it with dconf running in another 
 * `dconf watch /`
 * `gnome-tweaks`
 
+As of Ubuntu 22.10, `gnome-tweaks` doesn't give you much. Use Settings instead.
+
+* Appearance
+  * Style -> Dark
+  * Wallpaper
+* Ubuntu Desktop
+  * Desktop Icons -> Size: Small
+
+Also do the Terminal Preferences.
+
+* 106 columns by 55 rows
+* GNOME dark
+
 ### Printer/scanner
 
 Go to Settings > Printers and expect the HP Laserjet MFP M125nw to be there, without having to add it, even over WiFi. Print a test page. May no longer be required for 20.04.
@@ -87,7 +100,7 @@ Then test with:
 
 Get a udev rules file for Open OCD, maybe the one from their Sourceforge repo [here](https://sourceforge.net/p/openocd/code/ci/master/tree/contrib/60-openocd.rules), and put it in `/etc/udev/rules.d`. `chmod` it to 644. Make sure your user is in the `plugdev` (and maybe `dailout`) groups. Reboot.
 
-### Firmware
+### Firmware, for Thinkpad laptops only
 
 Get new firmware from the LVFS stable channel if anything doesn't work (eg. fingerprint reader)
 
@@ -108,19 +121,17 @@ So that `apt-get source foo` will work, open the "Software & Updates" applicatio
 
 Follow instructions [here](https://github.com/nodesource/distributions/blob/master/README.md#debinstall) to get Node.js. Don't use the snap for this.
 
-Then get `nvm` (Node.js version manager) from [here](https://heynode.com/tutorial/install-nodejs-locally-nvm/).
+Then get `nvm` (Node.js version manager) from [here](https://github.com/nvm-sh/nvm#installing-and-updating).
 
 Follow your nose at [rustup.rs](https://rustup.rs/) to get the latest stable Rust, including cargo.
 
 Follow your nose at [docker.com](https://docs.docker.com/desktop/linux/install/ubuntu/) to get Docker set up.
 
-Downgrade to Python 3.9 (from 3.10) to support AWS SAM, assuming you can live without Pythong 3.10 altogether.
+Get Python 3.9 for AWS SAM but do NOT downgrade the system Python to it or you'll break it. Get `virtualenv` working instead.
 
 * `sudo add-apt-repository ppa:deadsnakes/ppa`
 * `sudo apt-get update`
 * `sudo apt-get install python3.9`
-* `sudo rm /usr/bin/python3`
-* `sudo ln -s /usr/bin/python3.9 /usr/bin/python3`
 * Follow instructions at https://pip.pypa.io/en/stable/installation/ to install pip again.
 
 ### ssh keys
@@ -147,6 +158,12 @@ Put `/etc/ssh/sshd_config` back to having `PasswordAuthentication` set to `no` a
 
 Make mouse wheel scrolling work in tmux.
 
-* `nano ~/.tmux.conf`
+* `code ~/.tmux.conf`
 * Add `set -g mouse on`
 * Kill any running tmux sessions to pick up the change: `tmux kill-server`
+
+### Browser extension wallets
+
+Enter seed phrases to recover accounts.
+
+Re-import the same accounts that were imported on previous machine.

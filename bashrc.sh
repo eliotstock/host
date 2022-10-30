@@ -27,11 +27,11 @@ export EDITOR="$VISUAL"
 # export CCACHE_DIR=~/r/fuchsia/.ccache
 
 # Google Cloud SDK
-if [ -f /home/e/r/google-cloud-sdk/path.bash.inc ]; then
-  source '/home/e/r/google-cloud-sdk/path.bash.inc'
+if [ -f /home/e/r/p/google-cloud-sdk/path.bash.inc ]; then
+  source '/home/e/r/p/google-cloud-sdk/path.bash.inc'
 fi
-if [ -f /home/e/r/google-cloud-sdk/completion.bash.inc ]; then
-  source '/home/e/r/google-cloud-sdk/completion.bash.inc'
+if [ -f /home/e/r/p/google-cloud-sdk/completion.bash.inc ]; then
+  source '/home/e/r/p/google-cloud-sdk/completion.bash.inc'
 fi
 
 # PATH=/usr/local/bin/make:$PATH

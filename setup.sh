@@ -6,17 +6,13 @@ sudo apt-get install -y git
 sudo apt-get install -y emacs
 sudo apt-get install -y virtualenv
 sudo apt-get install -y cloc
-sudo snap install code --classic
-# sudo snap install android-studio --classic
-
-# Don't use the Node.js snap
-# sudo snap install node --classic --channel=8/stable
+sudo snap install code
 
 # Other
 sudo apt-get install -y gnome-tweaks
 sudo snap install telegram-desktop
 sudo snap install discord
-# sudo snap install slack --classic
+sudo snap install slack
 sudo snap install spotify
 sudo snap install vlc
 sudo apt-get install -y simple-scan
@@ -52,9 +48,9 @@ sudo echo "fs.inotify.max_user_watches = 524288" > /etc/sysctl.d/50-eliot_more_w
 cat >> ~/.bashrc <<EOL
 
 # Do not add things to ~/.bashrc, which is not version controlled.
-# Instead add things to ~/r/linux-setup/bashrc.sh, which is.
-if [ -f ~/r/linux-setup/bashrc.sh ]; then
-  source ~/r/linux-setup/bashrc.sh
+# Instead add things to ~/r/p/linux-setup/bashrc.sh, which is.
+if [ -f ~/r/p/linux-setup/bashrc.sh ]; then
+  source ~/r/p/linux-setup/bashrc.sh
 fi
 EOL
 
