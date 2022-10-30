@@ -127,12 +127,7 @@ Follow your nose at [rustup.rs](https://rustup.rs/) to get the latest stable Rus
 
 Follow your nose at [docker.com](https://docs.docker.com/desktop/linux/install/ubuntu/) to get Docker set up.
 
-Get Python 3.9 for AWS SAM but do NOT downgrade the system Python to it or you'll break it. Get `virtualenv` working instead.
-
-* `sudo add-apt-repository ppa:deadsnakes/ppa`
-* `sudo apt-get update`
-* `sudo apt-get install python3.9`
-* Follow instructions at https://pip.pypa.io/en/stable/installation/ to install pip again.
+Get Python 3.9 for AWS SAM but do NOT downgrade the system Python to it or you'll break it. Get `virtualenv` working instead. Note that the `deadsnakes` PPA only supports LTS versions of Ubuntu (22.04, 24.04). Use `pyenv` instead. See https://github.com/pyenv/pyenv.
 
 ### ssh keys
 
