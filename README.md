@@ -119,18 +119,32 @@ So that `apt-get source foo` will work, open the "Software & Updates" applicatio
 
 ### Dev env
 
+#### Node.js
+
 Follow instructions [here](https://github.com/nodesource/distributions/blob/master/README.md#debinstall) to get Node.js. Don't use the snap for this.
 
 Then get `nvm` (Node.js version manager) from [here](https://github.com/nvm-sh/nvm#installing-and-updating).
 
+#### Rust
+
 Follow your nose at [rustup.rs](https://rustup.rs/) to get the latest stable Rust, including cargo.
 
+#### Docker
+
 Follow your nose at [docker.com](https://docs.docker.com/desktop/linux/install/ubuntu/) to get Docker set up.
+
+#### Python
 
 Get Python 3.9 for AWS SAM but do NOT downgrade the system Python to it or you'll break it. Get `virtualenv` working instead. Note that the `deadsnakes` PPA only supports LTS versions of Ubuntu (22.04, 24.04). Use `pyenv` instead.
 
 * `sudo apt install python3.10-venv`
 * See https://github.com/pyenv/pyenv.
+
+#### AWS
+
+Follow this to get the AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+Follow this to get the AWS SAM CLI: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html
 
 ### ssh keys
 
