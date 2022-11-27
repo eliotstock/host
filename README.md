@@ -1,14 +1,16 @@
-# linux-setup
+# Host setup
 
-Small script to set up a new Linux desktop/laptop for personal use.
+Small script to set up a new Ubuntu or MacOS desktop/laptop for personal use.
 
-## Things to test manually before committing to a new release
+## Things to test manually before committing to a new Ubuntu release
 
 * External monitor works after locking and unlocking.
 * Screensharing works in Google Meet (Wayland has/had no support for this).
 * Bluetooth headphones work as a headset. Mic works and audio quality is good.
 
-## To upgrade in-place rather than reinstall
+## Ubuntu
+
+### To upgrade in-place rather than reinstall
 
 If you wait long enough the Software Updater app will offer to upgrade Ubuntu. Before that, or if it doesn't:
 
@@ -18,7 +20,7 @@ If you wait long enough the Software Updater app will offer to upgrade Ubuntu. B
 * `sudo apt autoremove`
 * `sudo do-release-upgrade`
 
-## Read this much from the old machine
+### Read this much from the old machine
 
 * If reinstalling over an existing Ubuntu instance:
     * Back up `~/.ssh` to a USB drive. The Ubuntu installer image has a 25GB writable partition you can use for this.
@@ -41,9 +43,9 @@ If you wait long enough the Software Updater app will offer to upgrade Ubuntu. B
 * This also sets up the Google repository for Chrome. Find Chrome in all apps and add it to the favourites.
 * Open Chrome and go to [this repo on Github](https://github.com/eliotstock/linux-setup)
 
-## Now switch to the new machine
+### Now switch to the new machine
 
-### Git and this script
+#### Git and this script
 
 * `sudo apt install git`
 * `git clone https://github.com/eliotstock/linux-setup`
@@ -64,7 +66,7 @@ Push any changes to the script up for next time. If there are no changes, do a p
 
 Open [github.com](https://github.com) in a browser and sign in, using 2FA.
 
-### Gnome config
+#### Gnome config
 
 Then use the GUI tool to make more tweaks. Run it with dconf running in another terminal tab to see which gsettings keys are being modified, then add those above for next time.
 
@@ -84,7 +86,7 @@ Also do the Terminal Preferences.
 * 106 columns by 55 rows
 * GNOME dark
 
-### Printer/scanner
+#### Printer/scanner
 
 Go to Settings > Printers and expect the HP Laserjet MFP M125nw to be there, without having to add it, even over WiFi. Print a test page. May no longer be required for 20.04.
 
@@ -96,11 +98,11 @@ Then test with:
 
 * `simple-scan`
 
-### udev
+#### udev
 
 Get a udev rules file for Open OCD, maybe the one from their Sourceforge repo [here](https://sourceforge.net/p/openocd/code/ci/master/tree/contrib/60-openocd.rules), and put it in `/etc/udev/rules.d`. `chmod` it to 644. Make sure your user is in the `plugdev` (and maybe `dailout`) groups. Reboot.
 
-### Firmware, for Thinkpad laptops only
+#### Firmware, for Thinkpad laptops only
 
 Get new firmware from the LVFS stable channel if anything doesn't work (eg. fingerprint reader)
 
@@ -113,40 +115,40 @@ Get new firmware from the LVFS stable channel if anything doesn't work (eg. fing
 
 Go to Settings, Users, e and enable the fingerprint reader.
 
-### Package sources
+#### Package sources
 
 So that `apt-get source foo` will work, open the "Software & Updates" application and check "Source code"
 
-### Dev env
+#### Dev env
 
-#### Node.js
+##### Node.js
 
 Follow instructions [here](https://github.com/nodesource/distributions/blob/master/README.md#debinstall) to get Node.js. Don't use the snap for this.
 
 Then get `nvm` (Node.js version manager) from [here](https://github.com/nvm-sh/nvm#installing-and-updating).
 
-#### Rust
+##### Rust
 
 Follow your nose at [rustup.rs](https://rustup.rs/) to get the latest stable Rust, including cargo.
 
-#### Docker
+##### Docker
 
 Follow your nose at [docker.com](https://docs.docker.com/desktop/linux/install/ubuntu/) to get Docker set up.
 
-#### Python
+##### Python
 
 Get Python 3.9 for AWS SAM but do NOT downgrade the system Python to it or you'll break it. Get `virtualenv` working instead. Note that the `deadsnakes` PPA only supports LTS versions of Ubuntu (22.04, 24.04). Use `pyenv` instead.
 
 * `sudo apt install python3.10-venv`
 * See https://github.com/pyenv/pyenv.
 
-#### AWS
+##### AWS
 
 Follow this to get the AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
 
 Follow this to get the AWS SAM CLI: https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html
 
-### ssh keys
+#### ssh keys
 
 If reinstalling over an existing Ubuntu instance, restore `~/.ssh` from old instance.
 
@@ -166,7 +168,7 @@ ssh to the server, verify the file is there and then append it to the existing `
 
 Put `/etc/ssh/sshd_config` back to having `PasswordAuthentication` set to `no` and `sudo service sshd restart` if applicable.
 
-### tmux config
+#### tmux config
 
 Make mouse wheel scrolling work in tmux.
 
@@ -174,7 +176,11 @@ Make mouse wheel scrolling work in tmux.
 * Add `set -g mouse on`
 * Kill any running tmux sessions to pick up the change: `tmux kill-server`
 
-### Browser extension wallets
+## MacOS
+
+TODO
+
+## Browser extension wallets
 
 Enter seed phrases to recover accounts.
 

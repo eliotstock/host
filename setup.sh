@@ -48,9 +48,9 @@ sudo echo "fs.inotify.max_user_watches = 524288" > /etc/sysctl.d/50-eliot_more_w
 cat >> ~/.bashrc <<EOL
 
 # Do not add things to ~/.bashrc, which is not version controlled.
-# Instead add things to ~/r/p/linux-setup/bashrc.sh, which is.
-if [ -f ~/r/p/linux-setup/bashrc.sh ]; then
-  source ~/r/p/linux-setup/bashrc.sh
+# Instead add things to ~/r/p/host/bashrc.sh, which is.
+if [ -f ~/r/p/host/bashrc.sh ]; then
+  source ~/r/p/host/bashrc.sh
 fi
 EOL
 
