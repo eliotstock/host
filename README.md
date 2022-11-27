@@ -142,6 +142,10 @@ Get Python 3.9 for AWS SAM but do NOT downgrade the system Python to it or you'l
 * `sudo apt install python3.10-venv`
 * See https://github.com/pyenv/pyenv.
 
+##### Golang
+
+* `sudo apt install golang`
+
 ##### AWS
 
 Follow this to get the AWS CLI: https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
