@@ -8,6 +8,13 @@ export EDITOR="$VISUAL"
 # Python
 # PATH=~/Library/Python/2.7/bin:$PATH
 
+# Pyenv, for installing and running multiple Python versions
+if [ -d /home/e/.pyenv ]; then
+  export PYENV_ROOT="$HOME/.pyenv"
+  command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+  eval "$(pyenv init -)"
+fi
+
 # Android
 # Keep the gradle version here up to date with the latest that Android Studio downloads.
 # PATH=/Applications/Android\ Studio.app/Contents/gradle/gradle-3.2/bin:$PATH

@@ -139,8 +139,10 @@ Follow your nose at [docker.com](https://docs.docker.com/desktop/linux/install/u
 
 Get Python 3.9 for AWS SAM but do NOT downgrade the system Python to it or you'll break it. Get `virtualenv` working instead. Note that the `deadsnakes` PPA only supports LTS versions of Ubuntu (22.04, 24.04). Use `pyenv` instead.
 
-* `sudo apt install python3.10-venv`
-* See https://github.com/pyenv/pyenv.
+* Folow your nose at the `pyenv` [repo](https://github.com/pyenv/pyenv).
+  * Don't forget the [suggested build environment](https://github.com/pyenv/pyenv/wiki#suggested-build-environment)
+* `pyenv install 3.9`
+* Follow your nose at `pyenv-virtualenv` [repo](https://github.com/pyenv/pyenv-virtualenv)
 
 ##### Golang
 
