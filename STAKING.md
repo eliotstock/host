@@ -1,5 +1,7 @@
 # Build an Ethereum 2 staking machine
 
+## Initial host setup
+
 1. (Optional) Update the firmware in your router, factory reset, reconfigure.
 1. Get an Intel NUC.
 1. Set the machine to restart after a power failure.
@@ -193,6 +195,9 @@ Unattended-Upgrade::Origins-Pattern {
     1. This will generate:
         1. `~/validator_keys/deposit_data-*.json`
         1. `~/validator_keys/keystore-m_12381_3600_0_0_0-1663727039.json`
+
+## Staking
+
 1. Just once, import the deposit keystore into the validator:
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --directory ~/validator_keys` and enter the password for the deposit keystore (ie. NOT the validator keystore)
 1. Just once, generate a JWT token to be used by the clients:
@@ -201,6 +206,9 @@ Unattended-Upgrade::Origins-Pattern {
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --checkpoint-sync-url https://beaconstate.ethstaker.cc`
         1. Get the checkpoint sync URL from https://eth-clients.github.io/checkpoint-sync-endpoints/
         1. See this thread in the Lighthouse Discord for more details o checks: https://discord.com/channels/605577013327167508/605577013331361793/1019755522985050142
+
+## On server restart
+
 1. Each time the server starts, run these four processes. For mainnet:
     1. Run `tmux`. Refresher:
         1. Create three panes with `C-b "`
@@ -228,19 +236,38 @@ Unattended-Upgrade::Origins-Pattern {
     1. `*:9000 (LISTEN)`: CL client, for the EL client
     1. `127.0.0.1:5052 (LISTEN)`: CL client, Beacon Node API for general use
     1. `127.0.0.1:18550 (LISTEN)`: MEV Boost
+
+## Monitoring
+
+1. Create a user on https://beaconcha.in/.
+1. Got to https://beaconcha.in/user/notifications and add your validator.
+1. Get the mobile app.
+1. Sign in on the mobile app.
+
+## Updates
+
 1. Subscribe to the repos to get an email on a new release. For each of these, drop down 'Watch', go to 'Custom' and check 'Releases'.
     1. https://github.com/nethermindeth/nethermind
     1. https://github.com/sigp/lighthouse
     1. https://github.com/flashbots/mev-boost
+1. If using a PPA, update to the binary will happen automatically on new releases, but there's no automated restart of the process after that AFACT.
 1. On each new release:
     1. Follow the instructions above again to get a new binary.
     1. Overwrite the existing binary.
     1. Wait till the end of an epoch.
-    1. Stop the process.
-    1. Restart the process.
-1. To stop staking:
-    1. `lighthouse account validator exit`
-1. Or just install and run `sedge`: https://docs.sedge.nethermind.io/docs/quickstart/install-guide
+    1. Stop the processes.
+    1. Restart each process.
+
+## Unstaking
+
+To stop staking:
+
+* `lighthouse account validator exit`
+
+## Sedge
+
+Or forget most of the above and just install and run `sedge`: https://docs.sedge.nethermind.io/docs/quickstart/install-guide
+
     1. Expect `segde` to use about 1TB per month in bandwidth. It'll be more while sync'ing, then decrease.
     1. To start the `sedge` containers once installed: `sudo docker compose -f docker-compose-scripts/docker-compose.yml up -d execution consensus`
     1. To stop them: `sudo docker compose -f docker-compose-scripts/docker-compose.yml down`
