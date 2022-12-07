@@ -135,6 +135,8 @@ Follow your nose at [rustup.rs](https://rustup.rs/) to get the latest stable Rus
 
 Follow your nose at [docker.com](https://docs.docker.com/desktop/linux/install/ubuntu/) to get Docker set up.
 
+To be able to run docker without sudo'ing, follow instructions [here](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user).
+
 ##### Python
 
 Get Python 3.9 for AWS SAM but do NOT downgrade the system Python to it or you'll break it. Get `virtualenv` working instead. Note that the `deadsnakes` PPA only supports LTS versions of Ubuntu (22.04, 24.04). Use `pyenv` instead.
