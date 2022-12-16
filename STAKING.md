@@ -248,16 +248,20 @@ Unattended-Upgrade::Origins-Pattern {
 ## Updates
 
 1. Subscribe to the repos to get an email on a new release. For each of these, drop down 'Watch', go to 'Custom' and check 'Releases'.
-    1. https://github.com/nethermindeth/nethermind
-    1. https://github.com/sigp/lighthouse
-    1. https://github.com/flashbots/mev-boost
+    1. https://github.com/nethermindeth/nethermind/releases
+    1. https://github.com/sigp/lighthouse/releases
+    1. https://github.com/flashbots/mev-boost/releases
 1. If using a PPA, update to the binary will happen automatically on new releases, but there's no automated restart of the process after that AFACT.
+1. To check which version you're currently running:
+    1. `nethermind --version` 1.14.7
+    1. `lighthouse --version` 3.3.0
+    1. `/data/mev-boost --version` 1.4.0
 1. On each new release:
     1. Follow the instructions above again to get a new binary.
     1. Overwrite the existing binary.
     1. Wait till the end of an epoch.
-    1. Stop the processes.
-    1. Restart each process.
+    1. Stop only the updated processes.
+    1. Rest the process.
 
 ## Unstaking
 
