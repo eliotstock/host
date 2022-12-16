@@ -183,6 +183,9 @@ Unattended-Upgrade::Origins-Pattern {
     1. Move the binary: `mv mev-boost /data`
     1. Pick a relay to use from: https://github.com/remyroy/ethstaker/blob/main/MEV-relay-list.md. Get the relay URL for later.
     1. All bloXroute relays were unreliable at the time of writing. Stick to Flashbots, even though they're compliant (boo!).
+
+## Staking
+
 1. Do the Staking Launchpad stuff at: https://launchpad.ethereum.org/en/generate-keys
     1. Download, extract and tidy up the staking deposit CLI.
         1. `wget https://github.com/ethereum/staking-deposit-cli/releases/download/v2.3.0/staking_deposit-cli-76ed782-linux-amd64.tar.gz`
@@ -195,9 +198,6 @@ Unattended-Upgrade::Origins-Pattern {
     1. This will generate:
         1. `~/validator_keys/deposit_data-*.json`
         1. `~/validator_keys/keystore-m_12381_3600_0_0_0-1663727039.json`
-
-## Staking
-
 1. Just once, import the deposit keystore into the validator:
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --directory ~/validator_keys` and enter the password for the deposit keystore (ie. NOT the validator keystore)
 1. Just once, generate a JWT token to be used by the clients:
@@ -211,7 +211,8 @@ Unattended-Upgrade::Origins-Pattern {
 
 1. Each time the server starts, run these four processes. For mainnet:
     1. Run `tmux`. Refresher:
-        1. Create three panes with `C-b "`
+        1. Create five panes with `C-b "`
+        1. Make them evenly sized with `C-b :` (to enter the command prompt) then `select-layout even vertical`
         1. Move around the panes with `C-b [arrow keys]`
         1. Kill a pane with `C-b C-d`
         1. Dettach from the session with `C-b d`
