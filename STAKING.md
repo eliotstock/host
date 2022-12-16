@@ -209,14 +209,14 @@ Unattended-Upgrade::Origins-Pattern {
 
 ## On server restart
 
-1. Each time the server starts, run these four processes. For mainnet:
-    1. Run `tmux`. Refresher:
+1. Each time the server starts, run these four processes inside `tmux`.
+    1. Run `tmux` first. Refresher:
         1. Create five panes with `C-b "`
         1. Make them evenly sized with `C-b :` (to enter the command prompt) then `select-layout even vertical`
         1. Move around the panes with `C-b [arrow keys]`
         1. Kill a pane with `C-b C-d`
         1. Dettach from the session with `C-b d`
-    1. `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true --JsonRpc.JwtSecretFile /data/jwtsecret --JsonRpc.Host 192.168.20.41 --log WARN`
+    1. Execution client: `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true --JsonRpc.JwtSecretFile /data/jwtsecret --JsonRpc.Host 192.168.20.41 --log WARN`
         1. This one will prompt for your password in order to become root, unfortunately.
         1. You may instead use `--log DEBUG` if you run into trouble. Default is `INFO`.
         1. You can wait for this to sync before you continue, but you don't need to. The beacon node will retry if the execution client isn't sync'ed yet.
@@ -224,13 +224,13 @@ Unattended-Upgrade::Origins-Pattern {
             1. `curl http://192.168.20.41:8545/health`
             1. Or if you have a GUI and browser: http://192.168.20.41:8545/healthchecks-ui
         1. Port `8551` is also open for JSON RPC.
-    1. `/data/mev-boost -mainnet -relay-check -relays https://0xac6e77dfe25ecd6110b8e780608cce0dab71fdd5ebea22a16c0205200f2f8e2e3ad3b71d3499c54ad14d6c21b41a37ae@boost-relay.flashbots.net`
-    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet --debug-level warn bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --http --builder http://locahost:18550`
+    1. MEV Boost: `/data/mev-boost -mainnet -relay-check -relays https://0xac6e77dfe25ecd6110b8e780608cce0dab71fdd5ebea22a16c0205200f2f8e2e3ad3b71d3499c54ad14d6c21b41a37ae@boost-relay.flashbots.net`
+    1. Beacon Node: `lighthouse --network mainnet --datadir /data/lighthouse/mainnet --debug-level warn bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --http --builder http://locahost:18550`
         1. Note that `localhost` is correct here, even though the EL client used `192.168.20.41`.
         1. Omit `--debug-level warn` initially to see that all is well.
         1. You can now use the Beacon Node API on http://localhost:5052 but only on the local machine. Do not NAT this through to the internet oy you'll get DDoS'ed.
         1. Once you know your validator node index, you can get the current balance of your validator with `curl http://localhost:5052/eth/v1/beacon/states/head/validators/{index}`.
-    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet vc --builder-proposals`
+    1. Validator: `lighthouse --network mainnet --datadir /data/lighthouse/mainnet vc --builder-proposals`
 1. Check the ports you're listening on with `sudo lsof -nP -iTCP -sTCP:LISTEN +c0 | grep IPv4`. Ignoring the OS services such as `sshd`, you should have:
     1. `192.168.20.41:8545 (LISTEN)`: EL client, JSON RPC for general use
     1. `127.0.0.1:8551 (LISTEN)`: EL client, JSON RPC for the CL client only
