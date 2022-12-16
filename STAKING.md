@@ -186,7 +186,7 @@ Unattended-Upgrade::Origins-Pattern {
 
 ## Staking
 
-1. Get yourself a new account to use as both the withdrawal address and the fee recipient address. Should be on a hardware wallet, seed phrase secure etc.
+1. Get yourself a new account to use as both the fee recipient address. Should be on a hardware wallet, seed phrase secure etc.
     1. `nano /data/lighthouse/mainnet/validators/validator_definitions.yml`
     1. TODO: Figure out where the other fields here come from.
     1. Pass the fee recipient address on the command lines to the BN and VC as well so that this is not strictly required at all.
@@ -197,21 +197,22 @@ Unattended-Upgrade::Origins-Pattern {
         1. `rm staking_deposit-cli-76ed782-linux-amd64.tar.gz`
         1. `mv staking_deposit-cli-76ed782-linux-amd64/deposit .`
         1. `rmdir staking_deposit-cli-76ed782-linux-amd64`
-    1. Go offline before generating the mnemonic. Ideally you do this on a cleanly installed machine but having the validator keys on the staking machine itself at the end is convenient, so simply doing it on the staking machine while offline is fine. Reboot before and after running the mnemonic.
+    1. Go offline before generating the mnemonic. In a perfect world you do this on a machine with a fresh OS installation that's never been online but having the validator keys on the staking machine itself at the end is convenient, so simply doing it on the staking machine while offline is fine. Reboot before and after running the mnemonic.
     1. Run it and record the mnemonic.
         1. `./deposit new-mnemonic --num_validators 1 --chain mainnet`
     1. This will generate:
         1. `~/validator_keys/deposit_data-*.json`
         1. `~/validator_keys/keystore-m_12381_3600_0_0_0-1663727039.json`
-1. Just once, import the deposit keystore into the validator:
+1. Import the deposit keystore into the validator:
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --directory ~/validator_keys` and enter the password for the deposit keystore (ie. NOT the validator keystore)
-1. Just once, generate a JWT token to be used by the clients:
+1. Generate a JWT token to be used by the clients:
     1. `openssl rand -hex 32 | tr -d "\n" > "/data/jwtsecret"`
 1. The first time you sync only, or if you've fallen far behind, use a checkpoint sync endpoint for the beacon node:
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --checkpoint-sync-url https://beaconstate.ethstaker.cc`
         1. Get the checkpoint sync URL from https://eth-clients.github.io/checkpoint-sync-endpoints/
         1. See this thread in the Lighthouse Discord for more details o checks: https://discord.com/channels/605577013327167508/605577013331361793/1019755522985050142
 1. Run through the checklist at https://launchpad.ethereum.org/en/checklist and make sure everything tickety-boo.
+1. Carry on with the staking process from https://launchpad.ethereum.org/en/generate-keys.
 
 ## On server restart
 
@@ -222,7 +223,7 @@ Unattended-Upgrade::Origins-Pattern {
         1. Move around the panes with `C-b [arrow keys]`
         1. Kill a pane with `C-b C-d`
         1. Dettach from the session with `C-b d`
-    1. Execution client: `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true --JsonRpc.JwtSecretFile /data/jwtsecret --JsonRpc.Host 192.168.20.41 --log WARN`
+    1. Execution client: `nethermind --datadir /data/nethermind --config /usr/share/nethermind/configs/mainnet.cfg --JsonRpc.Enabled true --HealthChecks.Enabled true --HealthChecks.UIEnabled true --JsonRpc.JwtSecretFile /data/jwtsecret --JsonRpc.Host 192.168.20.41`
         1. This one will prompt for your password in order to become root, unfortunately.
         1. You may instead use `--log DEBUG` if you run into trouble. Default is `INFO`.
         1. You can wait for this to sync before you continue, but you don't need to. The beacon node will retry if the execution client isn't sync'ed yet.
@@ -231,7 +232,7 @@ Unattended-Upgrade::Origins-Pattern {
             1. Or if you have a GUI and browser: http://192.168.20.41:8545/healthchecks-ui
         1. Port `8551` is also open for JSON RPC.
     1. MEV Boost: `/data/mev-boost -mainnet -relay-check -relays https://0xac6e77dfe25ecd6110b8e780608cce0dab71fdd5ebea22a16c0205200f2f8e2e3ad3b71d3499c54ad14d6c21b41a37ae@boost-relay.flashbots.net`
-    1. Beacon Node: `lighthouse --network mainnet --datadir /data/lighthouse/mainnet --debug-level warn bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --http --builder http://locahost:18550 --suggested-fee-recipient <ADDRESS>`
+    1. Beacon Node: `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --http --builder http://locahost:18550 --suggested-fee-recipient <ADDRESS>`
         1. Note that `localhost` is correct here, even though the EL client used `192.168.20.41`.
         1. Omit `--debug-level warn` initially to see that all is well.
         1. You can now use the Beacon Node API on http://localhost:5052 but only on the local machine. Do not NAT this through to the internet oy you'll get DDoS'ed.
