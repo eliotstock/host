@@ -276,6 +276,24 @@ To stop staking:
 
 * `lighthouse account validator exit`
 
+## What do do if...
+
+### Your staking machine gets stolen
+
+* Don't panic about losing your stake. The withdrawal private key is not on the machine and can be generated from the mnemonic only. We haven't even generated that private key yet, anywhere.
+* Don't go and build a new staking machine, regenerate the same keys and start running again. You'll risk slashing by double signing if:
+    * You didn't turn on Lighthouse's [doppelganger protection](https://lighthouse-book.sigmaprime.io/validator-doppelganger.html) AND
+    * The thief powers on the machine AND
+    * The machine manages to find the router on the thief's network because the subnet is the same or the thief cared enough to detect the expected subnet AND
+    * The processes are all set up to start on boot using `systemd` OR
+    * The thief got the user password and started all the services
+* So is it worth turning on doppelganger protection?
+    * Probably not. If the machine password is secure and you didn't set up `systemd` services, the chances of the machine ever validating again are low and the cost of DP is two or three epochs of rewards on an upgrade or restart.
+* Instead, wait a month or two and monitor your validator index.
+    * If it never starts running again, it's low enough risk to build a new machine and start validating again with regenerated keys.
+    * There's little point in the thief extracting the validator key from the machine, because it can't be used without the password anyway.
+    * See also this [discussion](https://www.reddit.com/r/ethstaker/comments/p9ylco/what_to_do_if_your_staking_machine_is_physically/)
+
 ## Sedge
 
 Or forget most of the above and just install and run `sedge`: https://docs.sedge.nethermind.io/docs/quickstart/install-guide
