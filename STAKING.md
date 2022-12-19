@@ -208,9 +208,20 @@ Unattended-Upgrade::Origins-Pattern {
     1. This will generate:
         1. `./validator_keys/deposit_data-*.json`
         1. `./validator_keys/keystore-m_12381_3600_0_0_0-1663727039.json`
-    1. Remeber this mnemonic can be used to regenerate both the signing key and the withdrawal key for later after Shanghai. It's all you need.
+    1. Remember this mnemonic can be used to regenerate both the signing key and the withdrawal key for later after Shanghai, although you'll get a slightly different keystore file if you do, even if you use the same password.
 1. Import the deposit keystore into the validator:
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --directory /data/validator_keys` and enter the password for the deposit keystore (ie. NOT the validator keystore)
+1. Back the keystore up onto a USB drive
+    1. First format the drive:
+        1. `lsblk`, plug the drive in, 'lsblk' again to spot the name of the device. Might be `/dev/sda`.
+        1. Unmount any paritions if they're mounted: `sudo umount /dev/sda1`, `sudo umount /dev/sda2`.
+        1. Make a new partition table: `sudo fdisk /dev/sda`, `o`, `n`, `p`, `1`, default, default, `w`
+        1. Format the new partition: `sudo mkfs.vfat -F 32 -n 'keys' /dev/sda1`
+        1. Eject: `sudo eject /dev/sda`
+        1. Reinsert the drive
+        1. `sudo mkdir /media/usb`
+        1. `sudo mount -t vfat /dev/sdb1 /media/usb`
+    1. `cp /data/validator_keys `
 1. Run through the checklist at https://launchpad.ethereum.org/en/checklist and make sure everything tickety-boo.
 1. Carry on with the staking process from https://launchpad.ethereum.org/en/generate-keys.
 
