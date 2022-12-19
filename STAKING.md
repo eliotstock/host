@@ -221,7 +221,8 @@ Unattended-Upgrade::Origins-Pattern {
         1. Reinsert the drive
         1. `sudo mkdir /media/usb`
         1. `sudo mount -t vfat /dev/sdb1 /media/usb`
-    1. `cp /data/validator_keys `
+    1. `sudo cp -r /data/validator_keys /media/usb`
+    1. `sudo eject /media/usb`
 1. Run through the checklist at https://launchpad.ethereum.org/en/checklist and make sure everything tickety-boo.
 1. Carry on with the staking process from https://launchpad.ethereum.org/en/generate-keys.
 
