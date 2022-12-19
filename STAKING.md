@@ -183,34 +183,34 @@ Unattended-Upgrade::Origins-Pattern {
     1. Move the binary: `mv mev-boost /data`
     1. Pick a relay to use from: https://github.com/remyroy/ethstaker/blob/main/MEV-relay-list.md. Get the relay URL for later.
     1. All bloXroute relays were unreliable at the time of writing. Stick to Flashbots, even though they're compliant (boo!).
-
-## Staking
-
-1. Get yourself a new account to use as both the fee recipient address. Should be on a hardware wallet, seed phrase secure etc.
-    1. `nano /data/lighthouse/mainnet/validators/validator_definitions.yml`
-    1. TODO: Figure out where the other fields here come from.
-    1. Pass the fee recipient address on the command lines to the BN and VC as well so that this is not strictly required at all.
-1. Do the Staking Launchpad stuff at: https://launchpad.ethereum.org/en/generate-keys
-    1. Download, extract and tidy up the staking deposit CLI.
-        1. `wget https://github.com/ethereum/staking-deposit-cli/releases/download/v2.3.0/staking_deposit-cli-76ed782-linux-amd64.tar.gz`
-        1. `tar -xvf staking_deposit-cli-76ed782-linux-amd64.tar.gz`
-        1. `rm staking_deposit-cli-76ed782-linux-amd64.tar.gz`
-        1. `mv staking_deposit-cli-76ed782-linux-amd64/deposit .`
-        1. `rmdir staking_deposit-cli-76ed782-linux-amd64`
-    1. Go offline before generating the mnemonic. In a perfect world you do this on a machine with a fresh OS installation that's never been online but having the validator keys on the staking machine itself at the end is convenient, so simply doing it on the staking machine while offline is fine. Reboot before and after running the mnemonic.
-    1. Run it and record the mnemonic.
-        1. `./deposit new-mnemonic --num_validators 1 --chain mainnet`
-    1. This will generate:
-        1. `~/validator_keys/deposit_data-*.json`
-        1. `~/validator_keys/keystore-m_12381_3600_0_0_0-1663727039.json`
-1. Import the deposit keystore into the validator:
-    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --directory ~/validator_keys` and enter the password for the deposit keystore (ie. NOT the validator keystore)
 1. Generate a JWT token to be used by the clients:
     1. `openssl rand -hex 32 | tr -d "\n" > "/data/jwtsecret"`
 1. The first time you sync only, or if you've fallen far behind, use a checkpoint sync endpoint for the beacon node:
     1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --checkpoint-sync-url https://beaconstate.ethstaker.cc`
         1. Get the checkpoint sync URL from https://eth-clients.github.io/checkpoint-sync-endpoints/
         1. See this thread in the Lighthouse Discord for more details o checks: https://discord.com/channels/605577013327167508/605577013331361793/1019755522985050142
+
+## Staking
+
+1. Get yourself a new account to use as the fee recipient address. Should be on a hardware wallet, seed phrase secure etc. Don't worry about the withdrawal account at this point.
+1. Do the Staking Launchpad stuff at: https://launchpad.ethereum.org/en/generate-keys
+    1. Download, extract and tidy up the staking deposit CLI.
+        1. `cd /data`
+        1. `wget https://github.com/ethereum/staking-deposit-cli/releases/download/v2.3.0/staking_deposit-cli-76ed782-linux-amd64.tar.gz`
+        1. `tar -xvf staking_deposit-cli-76ed782-linux-amd64.tar.gz`
+        1. `rm staking_deposit-cli-76ed782-linux-amd64.tar.gz`
+        1. `mv staking_deposit-cli-76ed782-linux-amd64/deposit .`
+        1. `rmdir staking_deposit-cli-76ed782-linux-amd64`
+    1. Go offline before generating the mnemonic. In a perfect world you do this on an air-gapped machine with a fresh OS installation that's never been online. But having the validator keys on the staking machine itself at the end is convenient, so simply doing it on the staking machine while offline is fine. Reboot before and after running the mnemonic.
+    1. Run it and record the mnemonic.
+        1. `./deposit new-mnemonic --num_validators 2 --chain mainnet`
+        1. The _password that secures your validator keystore(s)_ doesn't need to be super secure. Someone with these keys can sabotage your validator performance but can't withdraw your stake.
+    1. This will generate:
+        1. `./validator_keys/deposit_data-*.json`
+        1. `./validator_keys/keystore-m_12381_3600_0_0_0-1663727039.json`
+    1. Remeber this mnemonic can be used to regenerate both the signing key and the withdrawal key for later after Shanghai. It's all you need.
+1. Import the deposit keystore into the validator:
+    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --directory /data/validator_keys` and enter the password for the deposit keystore (ie. NOT the validator keystore)
 1. Run through the checklist at https://launchpad.ethereum.org/en/checklist and make sure everything tickety-boo.
 1. Carry on with the staking process from https://launchpad.ethereum.org/en/generate-keys.
 
