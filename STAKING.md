@@ -193,7 +193,7 @@ Unattended-Upgrade::Origins-Pattern {
 ## Staking
 
 1. Get yourself a new account to use as the fee recipient address. Should be on a hardware wallet, seed phrase secure etc. Don't worry about the withdrawal account at this point.
-1. Do the Staking Launchpad stuff at: https://launchpad.ethereum.org/en/generate-keys
+1. On the staking machine:
     1. Download, extract and tidy up the staking deposit CLI.
         1. `cd /data`
         1. `wget https://github.com/ethereum/staking-deposit-cli/releases/download/v2.3.0/staking_deposit-cli-76ed782-linux-amd64.tar.gz`
@@ -209,21 +209,25 @@ Unattended-Upgrade::Origins-Pattern {
         1. `./validator_keys/deposit_data-*.json`
         1. `./validator_keys/keystore-m_12381_3600_0_0_0-1663727039.json`
     1. Remember this mnemonic can be used to regenerate both the signing key and the withdrawal key for later after Shanghai, although you'll get a slightly different keystore file if you do, even if you use the same password.
-1. Import the deposit keystore into the validator:
-    1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --directory /data/validator_keys` and enter the password for the deposit keystore (ie. NOT the validator keystore)
-1. Back the keystore up onto a USB drive
-    1. First format the drive:
-        1. `lsblk`, plug the drive in, 'lsblk' again to spot the name of the device. Might be `/dev/sda`.
-        1. Unmount any paritions if they're mounted: `sudo umount /dev/sda1`, `sudo umount /dev/sda2`.
-        1. Make a new partition table: `sudo fdisk /dev/sda`, `o`, `n`, `p`, `1`, default, default, `w`
-        1. Format the new partition: `sudo mkfs.vfat -F 32 -n 'keys' /dev/sda1`
-        1. Eject: `sudo eject /dev/sda`
-        1. Reinsert the drive
-        1. `sudo mkdir /media/usb`
-        1. `sudo mount -t vfat /dev/sdb1 /media/usb`
-    1. `sudo cp -r /data/validator_keys /media/usb`
-    1. `sudo eject /media/usb`
-1. Run through the checklist at https://launchpad.ethereum.org/en/checklist and make sure everything tickety-boo.
+    1. Import only the first of the two keystores into the validator:
+        1. `lighthouse --network mainnet --datadir /data/lighthouse/mainnet account validator import --keystore /data/validator_keys/keystore-m_12381_3600_0_0_0-*.json` and enter the password for the keystore.
+    1. Back the keystore up onto a USB drive
+        1. First format the drive:
+            1. `lsblk`, plug the drive in, 'lsblk' again to spot the name of the device. Might be `/dev/sda`.
+            1. Unmount any paritions if they're mounted: `sudo umount /dev/sda1`, `sudo umount /dev/sda2`.
+            1. Make a new partition table: `sudo fdisk /dev/sda`, `o`, `n`, `p`, `1`, default, default, `w`
+            1. Format the new partition: `sudo mkfs.vfat -F 32 -n 'keys' /dev/sda1`
+            1. Eject: `sudo eject /dev/sda`
+            1. Reinsert the drive
+            1. `sudo mkdir /media/usb`
+            1. `sudo mount -t vfat /dev/sdb1 /media/usb`
+        1. `sudo cp -r /data/validator_keys /media/usb`
+        1. `sudo eject /media/usb`
+1. On the machine where you have MetaMask and your Ledger:
+    1. Run through the checklist at https://launchpad.ethereum.org/en/checklist and make sure everything tickety-boo.
+    1. Get to https://launchpad.ethereum.org/en/upload-deposit-data where you upload your deposit data.
+    1. Plug in the USB drive and mount it.
+
 1. Carry on with the staking process from https://launchpad.ethereum.org/en/generate-keys.
 
 ## On server restart
@@ -231,7 +235,7 @@ Unattended-Upgrade::Origins-Pattern {
 1. Each time the server starts, run these four processes inside `tmux`.
     1. Run `tmux` first. Refresher:
         1. Create five panes with `C-b "`
-        1. Make them evenly sized with `C-b :` (to enter the command prompt) then `select-layout even vertical`
+        1. Make them evenly sized with `C-b :` (to enter the command prompt) then `select-layout even-vertical`
         1. Move around the panes with `C-b [arrow keys]`
         1. Kill a pane with `C-b C-d`
         1. Dettach from the session with `C-b d`
@@ -244,12 +248,12 @@ Unattended-Upgrade::Origins-Pattern {
             1. Or if you have a GUI and browser: http://192.168.20.41:8545/healthchecks-ui
         1. Port `8551` is also open for JSON RPC.
     1. MEV Boost: `/data/mev-boost -mainnet -relay-check -relays https://0xac6e77dfe25ecd6110b8e780608cce0dab71fdd5ebea22a16c0205200f2f8e2e3ad3b71d3499c54ad14d6c21b41a37ae@boost-relay.flashbots.net`
-    1. Beacon Node: `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --http --builder http://locahost:18550 --suggested-fee-recipient <ADDRESS>`
+    1. Beacon Node: `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --http --builder http://locahost:18550 --graffiti eliotstock --suggested-fee-recipient <ADDRESS>`
         1. Note that `localhost` is correct here, even though the EL client used `192.168.20.41`.
         1. Omit `--debug-level warn` initially to see that all is well.
         1. You can now use the Beacon Node API on http://localhost:5052 but only on the local machine. Do not NAT this through to the internet oy you'll get DDoS'ed.
         1. Once you know your validator node index, you can get the current balance of your validator with `curl http://localhost:5052/eth/v1/beacon/states/head/validators/{index}`.
-    1. Validator: `lighthouse --network mainnet --datadir /data/lighthouse/mainnet vc --builder-proposals --suggested-fee-recipient <ADDRESS>`
+    1. Validator: `lighthouse --network mainnet --datadir /data/lighthouse/mainnet vc --builder-proposals --graffiti eliotstock --suggested-fee-recipient <ADDRESS>`
 1. Check the ports you're listening on with `sudo lsof -nP -iTCP -sTCP:LISTEN +c0 | grep IPv4`. Ignoring the OS services such as `sshd`, you should have:
     1. `192.168.20.41:8545 (LISTEN)`: EL client, JSON RPC for general use
     1. `127.0.0.1:8551 (LISTEN)`: EL client, JSON RPC for the CL client only
