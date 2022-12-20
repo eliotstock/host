@@ -253,7 +253,7 @@ Unattended-Upgrade::Origins-Pattern {
             1. Or if you have a GUI and browser: http://192.168.20.41:8545/healthchecks-ui
         1. Port `8551` is also open for JSON RPC.
     1. MEV Boost: `/data/mev-boost -mainnet -relay-check -relays https://0xac6e77dfe25ecd6110b8e780608cce0dab71fdd5ebea22a16c0205200f2f8e2e3ad3b71d3499c54ad14d6c21b41a37ae@boost-relay.flashbots.net`
-    1. Beacon Node: `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --http --builder http://locahost:18550 --graffiti eliotstock --suggested-fee-recipient <ADDRESS>`
+    1. Beacon Node: `lighthouse --network mainnet --datadir /data/lighthouse/mainnet bn --execution-endpoint http://localhost:8551 --execution-jwt /data/jwtsecret --http --builder http://localhost:18550 --graffiti eliotstock --suggested-fee-recipient <ADDRESS>`
         1. Note that `localhost` is correct here, even though the EL client used `192.168.20.41`.
         1. Omit `--debug-level warn` initially to see that all is well.
         1. You can now use the Beacon Node API on http://localhost:5052 but only on the local machine. Do not NAT this through to the internet oy you'll get DDoS'ed.
