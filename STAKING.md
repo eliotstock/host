@@ -227,8 +227,13 @@ Unattended-Upgrade::Origins-Pattern {
     1. Run through the checklist at https://launchpad.ethereum.org/en/checklist and make sure everything tickety-boo.
     1. Get to https://launchpad.ethereum.org/en/upload-deposit-data where you upload your deposit data.
     1. Plug in the USB drive and mount it.
-
 1. Carry on with the staking process from https://launchpad.ethereum.org/en/generate-keys.
+    1. This is where you upload your deposit data JSON file, connect using the account you have on your Ledger, and pay the 32 ETH.
+    1. If you generated more keys than you needed:
+        1. Edit the deposit data JSON file down to just the ones you're funding, and
+        1. Edit the `/data/lighthouse/mainnet/validators/validator_definitions.yml` file to disable the other validators.
+    1. This transaction cost 50,634 gas, which was 0.00065 ETH at the time when I last did it. Having 0.001 ETH in your accouint to cover gas should be more than enough.
+1. Copy the public keys of the validator(s) you're funding from `/data/lighthouse/mainnet/validators/validator_definitions.yml` so you can paste them into beaconcha.in later (see Monitoring below)
 
 ## On server restart
 
