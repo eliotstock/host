@@ -53,4 +53,8 @@ export NODE_OPTIONS=--max_old_space_size=4096
 alias ls='ls -lah'
 alias emacs='emacs -nw'
 
+trash() {
+  mv "$1" "/home/e/.local/share/Trash/files"
+}
+
 export PS1="\$"
