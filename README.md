@@ -54,9 +54,9 @@ If you wait long enough the Software Updater app will offer to upgrade Ubuntu. B
 
 Fix any errors in the script.
 
-Configure git user. Cache the personal access token from Github for one week.
+Configure git user. Cache the personal access token from Github for one week. Get your `noreply` email address from https://github.com/settings/emails.
 
-* `git config --global user.email "foo@example.com"`
+* `git config --global user.email "ID+USERNAME@users.noreply.github.com"`
 * `git config --global user.name "Your Name"`
 * `git config --global credential.helper cache`
 * `git config --global credential.helper 'cache --timeout=604800'`

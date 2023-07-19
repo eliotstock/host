@@ -54,6 +54,10 @@ export PATH="/home/e/.local/bin:$PATH"
 # Node.js. Fix 'FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory'
 export NODE_OPTIONS=--max_old_space_size=4096
 
+# Cairo
+export CAIRO_ROOT="$HOME/.cairo"
+command -v cairo-compile >/dev/null || export PATH="$CAIRO_ROOT/target/release:$PATH"
+
 alias ls='ls -lah'
 alias emacs='emacs -nw'
 
