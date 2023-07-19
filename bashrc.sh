@@ -2,6 +2,7 @@
 # Instead add things to this file, which is.
 
 # Have git and others use emacs for an editor, not vi.
+# crontab for one will break if you try setting this to VS Code.
 export VISUAL="emacs -nw"
 export EDITOR="$VISUAL"
 

@@ -44,6 +44,11 @@ gsettings set org.gnome.shell favorite-apps "['google-chrome.desktop', 'org.gnom
 # Not repeatable
 sudo echo "fs.inotify.max_user_watches = 524288" > /etc/sysctl.d/50-eliot_more_watches.conf
 
+# Use VS Code as the default text editor (assuming it's installed as a snap)
+sudo update-alternatives --install /usr/bin/editor editor $(which code) 10
+sudo update-alternatives --set editor /snap/bin/code
+xdg-mime default code.desktop text/plain
+
 # Append to ~/.bashrc with a sourcing of bashrc.sh from this repo
 cat >> ~/.bashrc <<EOL
 
