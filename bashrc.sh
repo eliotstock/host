@@ -58,6 +58,10 @@ export NODE_OPTIONS=--max_old_space_size=4096
 export CAIRO_ROOT="$HOME/.cairo"
 command -v cairo-compile >/dev/null || export PATH="$CAIRO_ROOT/target/release:$PATH"
 
+# Serial comms with Rock 5B. See https://docs.radxa.com/en/general-tutorial/serial
+alias minicom='minicom -w -t xterm -l -R UTF-8'
+
+# Aliases
 alias ls='ls -lah'
 alias emacs='emacs -nw'
 
