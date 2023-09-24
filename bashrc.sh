@@ -73,3 +73,8 @@ export PS1="\$"
 
 # Or just put things in /usr/local/bin
 export PATH="/home/e/bin:$PATH"
+
+# Autocompletion for the Stripe CLI
+if [ -f ~/.stripe/stripe-completion.bash ]; then
+  source ~/.stripe/stripe-completion.bash
+fi
