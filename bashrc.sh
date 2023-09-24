@@ -70,3 +70,6 @@ trash() {
 }
 
 export PS1="\$"
+
+# Or just put things in /usr/local/bin
+export PATH="/home/e/bin:$PATH"
