@@ -54,9 +54,12 @@ export PATH="/home/e/.local/bin:$PATH"
 # Node.js. Fix 'FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory'
 export NODE_OPTIONS=--max_old_space_size=4096
 
-# Cairo
+# Cairo & Starknet
 export CAIRO_ROOT="$HOME/.cairo"
 command -v cairo-compile >/dev/null || export PATH="$CAIRO_ROOT/target/release:$PATH"
+if [ -f /home/e/.starkli/env ]; then
+  source "/home/e/.starkli/env"
+fi
 
 # Serial comms with Rock 5B. See https://docs.radxa.com/en/general-tutorial/serial
 alias minicom='minicom -w -t xterm -l -R UTF-8'
@@ -75,6 +78,12 @@ export PS1="\$"
 export PATH="/home/e/bin:$PATH"
 
 # Autocompletion for the Stripe CLI
-if [ -f ~/.stripe/stripe-completion.bash ]; then
-  source ~/.stripe/stripe-completion.bash
+if [ -f /home/e/.stripe/stripe-completion.bash ]; then
+  source /home/e/.stripe/stripe-completion.bash
+fi
+
+# Autocompletion for k8s
+if ! command source <(kubectl completion bash) &> /dev/null
+then
+  echo "no k8s"
 fi
