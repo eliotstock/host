@@ -53,6 +53,21 @@ export PATH="/home/e/.local/bin:$PATH"
 
 # Node.js. Fix 'FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory'
 export NODE_OPTIONS=--max_old_space_size=4096
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+. "$HOME/.cargo/env"
+export PATH=/home/e/.meteor:$PATH
+
+# pnpm
+export PNPM_HOME="/home/e/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+export PATH="$PATH:/home/e/.foundry/bin"
+
 
 # Cairo & Starknet
 export CAIRO_ROOT="$HOME/.cairo"
