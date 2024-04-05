@@ -1,6 +1,8 @@
 # Do not add things to ~/.bashrc, which is not version controlled.
 # Instead add things to this file, which is.
 
+echo "Starting repo bashrc"
+
 # Have git and others use emacs for an editor, not vi.
 # crontab for one will break if you try setting this to VS Code.
 export VISUAL="emacs -nw"
@@ -10,9 +12,12 @@ export EDITOR="$VISUAL"
 # PATH=~/Library/Python/2.7/bin:$PATH
 
 # Cursor
-if [ -d /home/e/bin/cursor/cursor ]; then
+if [ -e /home/e/bin/cursor/cursor ]; then
   PATH="/home/e/bin/cursor:$PATH"
 fi
+
+# Rust
+. "$HOME/.cargo/env"
 
 # Pyenv, for installing and running multiple Python versions
 if [ -d /home/e/.pyenv ]; then
@@ -41,12 +46,12 @@ fi
 # export CCACHE_DIR=~/r/fuchsia/.ccache
 
 # Google Cloud SDK
-if [ -f /home/e/r/p/google-cloud-sdk/path.bash.inc ]; then
-  source '/home/e/r/p/google-cloud-sdk/path.bash.inc'
-fi
-if [ -f /home/e/r/p/google-cloud-sdk/completion.bash.inc ]; then
-  source '/home/e/r/p/google-cloud-sdk/completion.bash.inc'
-fi
+# if [ -f /home/e/r/p/google-cloud-sdk/path.bash.inc ]; then
+#   source '/home/e/r/p/google-cloud-sdk/path.bash.inc'
+# fi
+# if [ -f /home/e/r/p/google-cloud-sdk/completion.bash.inc ]; then
+#   source '/home/e/r/p/google-cloud-sdk/completion.bash.inc'
+# fi
 
 # PATH=/usr/local/bin/make:$PATH
 
@@ -95,7 +100,8 @@ trash() {
 export PS1="\$"
 
 # Or just put things in /usr/local/bin
-export PATH="/home/e/bin:$PATH"
+# No longer required because ~/.profile does this.
+# export PATH="/home/e/bin:$PATH"
 
 # Autocompletion for the Stripe CLI
 if [ -f /home/e/.stripe/stripe-completion.bash ]; then
@@ -109,4 +115,7 @@ then
 fi
 
 # Direnv, used by the Worldcoin Orb software repo
+if [ -e /home/e/.nix-profile/etc/profile.d/nix.sh ]; then . /home/e/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 eval "$(direnv hook bash)"
+
+echo "Finished repo bashrc"
