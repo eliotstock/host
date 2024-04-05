@@ -9,6 +9,11 @@ export EDITOR="$VISUAL"
 # Python
 # PATH=~/Library/Python/2.7/bin:$PATH
 
+# Cursor
+if [ -d /home/e/bin/cursor/cursor ]; then
+  PATH="/home/e/bin/cursor:$PATH"
+fi
+
 # Pyenv, for installing and running multiple Python versions
 if [ -d /home/e/.pyenv ]; then
   export PYENV_ROOT="$HOME/.pyenv"
@@ -46,10 +51,10 @@ fi
 # PATH=/usr/local/bin/make:$PATH
 
 # Solana
-PATH="/home/e/.local/share/solana/install/active_release/bin:$PATH"
+# PATH="/home/e/.local/share/solana/install/active_release/bin:$PATH"
 
 # Aptos
-export PATH="/home/e/.local/bin:$PATH"
+# export PATH="/home/e/.local/bin:$PATH"
 
 # Node.js. Fix 'FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory'
 export NODE_OPTIONS=--max_old_space_size=4096
@@ -77,7 +82,7 @@ if [ -f /home/e/.starkli/env ]; then
 fi
 
 # Serial comms with Rock 5B. See https://docs.radxa.com/en/general-tutorial/serial
-alias minicom='minicom -w -t xterm -l -R UTF-8'
+# alias minicom='minicom -w -t xterm -l -R UTF-8'
 
 # Aliases
 alias ls='ls -lah'
@@ -102,3 +107,6 @@ if ! command source <(kubectl completion bash) &> /dev/null
 then
   echo "no k8s"
 fi
+
+# Direnv, used by the Worldcoin Orb software repo
+eval "$(direnv hook bash)"
