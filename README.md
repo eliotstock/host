@@ -45,11 +45,11 @@ If you wait long enough the Software Updater app will offer to upgrade Ubuntu. B
 
 ### Now switch to the new machine
 
-#### Git and this script
+#### Install git and run this script
 
 * `sudo apt install git`
-* `git clone https://github.com/eliotstock/linux-setup`
-* `cd linux-setup`
+* `git clone https://github.com/eliotstock/host`
+* `cd host`
 * `./setup.sh`
 
 Fix any errors in the script.
@@ -185,6 +185,8 @@ Make mouse wheel scrolling work in tmux.
 * Kill any running tmux sessions to pick up the change: `tmux kill-server`
 
 ## MacOS
+
+Install Mac OS developer tools first (Google it)
 
 Change the hostname
 
