@@ -186,7 +186,17 @@ Make mouse wheel scrolling work in tmux.
 
 ## MacOS
 
-TODO
+Change the hostname
+
+```
+sudo scutil --set HostName eliot_mac
+```
+
+Change to `bash`
+
+```
+chsh -s /bin/bash
+```
 
 ## Browser extension wallets
 
