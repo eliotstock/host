@@ -237,3 +237,25 @@ brew install node
 Enter seed phrases to recover accounts.
 
 Re-import the same accounts that were imported on previous machine.
+
+## SSH
+
+On any new client, create a new SSH key.
+
+```
+ssh-keygen -t rsa -b 4096 -C "eliot_HOSTNAME"
+```
+
+Then copy the public key from the pair to the clipboard.
+
+```
+cat ~/.ssh/id_rsa.pub | pbcopy
+```
+
+Now put the public key into https://github.com > Settings > SSH and GPG keys > New SSH key. This and every other public key in GitHub can be appended to the `~/.ssh/authorized_keys` file on the server to allow ssh access as follows (on the server):
+
+```
+ssh-import-id gh:eliotstock
+```
+
+If you lose a client machine, just go to GitHub and delete the key there, then go to the server (from another client) and remove that key from `~/.ssh/authorized_keys`. The labels in GitHub do not show up in `~/.ssh/authorized_keys`, so you have to match the key value.
