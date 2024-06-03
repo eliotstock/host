@@ -218,9 +218,13 @@ if [ -f ~/r/p/host/bashrc.sh ]; then
 fi
 ```
 
-Get `homebrew` by executing the one-liner on https://brew.sh/.
+If you had to create `~/.bashrc`, also make it executable:
 
-TODO: Add `brew` to `PATH`.
+```
+chmod u+x ~/.bashrc
+```
+
+Get `homebrew` by executing the one-liner on https://brew.sh/.
 
 Get Node.js and nvm from Homebrew.
 
