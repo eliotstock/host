@@ -186,18 +186,46 @@ Make mouse wheel scrolling work in tmux.
 
 ## MacOS
 
-Install Mac OS developer tools first (Google it)
+If the installer forced a draconian password requirement on you, change it with the CLI, which does not enforce the same policy.
 
-Change the hostname
+```
+passwd
+```
+
+Install Mac OS developer tools.
+
+```
+xcode-select --install
+```
+
+Change the hostname.
 
 ```
 sudo scutil --set HostName eliot_mac
 ```
 
-Change to `bash`
+Change from `zsh` to `bash`.
 
 ```
 chsh -s /bin/bash
+```
+
+Get this repo's `bashrc.sh` to execute from `~/.bashrc` by adding this to the end of it:
+
+```
+if [ -f ~/r/p/host/bashrc.sh ]; then
+  source ~/r/p/host/bashrc.sh
+fi
+```
+
+Get `homebrew` by executing the one-liner on https://brew.sh/.
+
+TODO: Add `brew` to `PATH`.
+
+Get Node.js and nvm from Homebrew.
+
+```
+brew install node
 ```
 
 ## Browser extension wallets
