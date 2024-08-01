@@ -45,11 +45,11 @@ If you wait long enough the Software Updater app will offer to upgrade Ubuntu. B
 
 ### Now switch to the new machine
 
-#### Git and this script
+#### Install git and run this script
 
 * `sudo apt install git`
-* `git clone https://github.com/eliotstock/linux-setup`
-* `cd linux-setup`
+* `git clone https://github.com/eliotstock/host`
+* `cd host`
 * `./setup.sh`
 
 Fix any errors in the script.
@@ -186,10 +186,76 @@ Make mouse wheel scrolling work in tmux.
 
 ## MacOS
 
-TODO
+If the installer forced a draconian password requirement on you, change it with the CLI, which does not enforce the same policy.
+
+```
+passwd
+```
+
+Install Mac OS developer tools.
+
+```
+xcode-select --install
+```
+
+Change the hostname.
+
+```
+sudo scutil --set HostName eliot_mac
+```
+
+Change from `zsh` to `bash`.
+
+```
+chsh -s /bin/bash
+```
+
+Get this repo's `bashrc.sh` to execute from `~/.bashrc` by adding this to the end of it:
+
+```
+if [ -f ~/r/p/host/bashrc.sh ]; then
+  source ~/r/p/host/bashrc.sh
+fi
+```
+
+If you had to create `~/.bashrc`, also make it executable:
+
+```
+chmod u+x ~/.bashrc
+```
+
+Get `homebrew` by executing the one-liner on https://brew.sh/.
+
+Get Node.js and nvm from Homebrew.
+
+```
+brew install node
+```
 
 ## Browser extension wallets
 
 Enter seed phrases to recover accounts.
 
 Re-import the same accounts that were imported on previous machine.
+
+## SSH
+
+On any new client, create a new SSH key.
+
+```
+ssh-keygen -t rsa -b 4096 -C "eliot_HOSTNAME"
+```
+
+Then copy the public key from the pair to the clipboard.
+
+```
+cat ~/.ssh/id_rsa.pub | pbcopy
+```
+
+Now put the public key into https://github.com > Settings > SSH and GPG keys > New SSH key. This and every other public key in GitHub can be appended to the `~/.ssh/authorized_keys` file on the server to allow ssh access as follows (on the server):
+
+```
+ssh-import-id gh:eliotstock
+```
+
+If you lose a client machine, just go to GitHub and delete the key there, then go to the server (from another client) and remove that key from `~/.ssh/authorized_keys`. The labels in GitHub do not show up in `~/.ssh/authorized_keys`, so you have to match the key value.

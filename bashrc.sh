@@ -8,6 +8,11 @@ echo "Starting repo bashrc"
 export VISUAL="emacs -nw"
 export EDITOR="$VISUAL"
 
+# Homebrew, on Mac OS only
+if [ -e /opt/homebrew/bin/brew ]; then
+  eval $(/opt/homebrew/bin/brew shellenv)
+fi
+
 # Python
 # PATH=~/Library/Python/2.7/bin:$PATH
 
