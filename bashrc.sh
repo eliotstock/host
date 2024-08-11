@@ -1,7 +1,7 @@
 # Do not add things to ~/.bashrc, which is not version controlled.
 # Instead add things to this file, which is.
 
-echo "Starting repo bashrc"
+# echo "Starting repo bashrc"
 
 # Have git and others use emacs for an editor, not vi.
 # crontab for one will break if you try setting this to VS Code.
@@ -113,13 +113,13 @@ if [ -f /home/e/.stripe/stripe-completion.bash ]; then
 fi
 
 # Autocompletion for k8s
-if ! command source <(kubectl completion bash) &> /dev/null
-then
-  echo "no k8s"
-fi
+# if ! command source <(kubectl completion bash) &> /dev/null
+# then
+#   echo "no k8s"
+# fi
 
 # Direnv, used by the Worldcoin Orb software repo
 if [ -e /home/e/.nix-profile/etc/profile.d/nix.sh ]; then . /home/e/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 eval "$(direnv hook bash)"
 
-echo "Finished repo bashrc"
+# echo "Finished repo bashrc"
