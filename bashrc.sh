@@ -119,7 +119,10 @@ fi
 # fi
 
 # Direnv, used by the Worldcoin Orb software repo
-if [ -e /home/e/.nix-profile/etc/profile.d/nix.sh ]; then . /home/e/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
-eval "$(direnv hook bash)"
+# Added by Nix installer
+if [ -e /home/e/.nix-profile/etc/profile.d/nix.sh ]; then
+  . /home/e/.nix-profile/etc/profile.d/nix.sh;
+  eval "$(direnv hook bash)"
+fi
 
 # echo "Finished repo bashrc"
