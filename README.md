@@ -210,7 +210,7 @@ Change from `zsh` to `bash`.
 chsh -s /bin/bash
 ```
 
-Get this repo's `bashrc.sh` to execute from `~/.bashrc` by adding this to the end of it:
+Get this repo's `bashrc.sh` to execute from `~/.bash_profile` by adding this to the end of it. Note that this should really go into `~/.bashrc` but Warp has a bug and won't run it.
 
 ```
 if [ -f ~/r/p/host/bashrc.sh ]; then
