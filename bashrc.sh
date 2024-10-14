@@ -82,6 +82,8 @@ esac
 # pnpm end
 export PATH="$PATH:/home/e/.foundry/bin"
 
+# Foundry
+export PATH="$PATH:/Users/e/.foundry/bin"
 
 # Cairo & Starknet
 export CAIRO_ROOT="$HOME/.cairo"
