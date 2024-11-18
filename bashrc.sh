@@ -68,6 +68,7 @@ fi
 
 # Node.js. Fix 'FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory'
 export NODE_OPTIONS=--max_old_space_size=4096
+# Note: you cannot use "which nvm" to see if nvm is available. It's a function, not a binary.
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
