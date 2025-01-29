@@ -2,16 +2,23 @@
 # Instead add things to this file, which is.
 
 # echo "Starting repo bashrc"
+if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+  # echo "Linux"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  # echo "Mac"
+
+  # Homebrew, on Mac OS only
+  if [ -e /opt/homebrew/bin/brew ]; then
+    eval $(/opt/homebrew/bin/brew shellenv)
+  fi
+fi
+
+# echo "Home: $HOME"
 
 # Have git and others use emacs for an editor, not vi.
 # crontab for one will break if you try setting this to VS Code.
 export VISUAL="emacs -nw"
 export EDITOR="$VISUAL"
-
-# Homebrew, on Mac OS only
-if [ -e /opt/homebrew/bin/brew ]; then
-  eval $(/opt/homebrew/bin/brew shellenv)
-fi
 
 # Docker
 export PATH="$HOME/.docker/bin:$PATH"
@@ -20,15 +27,15 @@ export PATH="$HOME/.docker/bin:$PATH"
 # PATH=~/Library/Python/2.7/bin:$PATH
 
 # Cursor
-if [ -e /home/e/bin/cursor/cursor ]; then
-  PATH="/home/e/bin/cursor:$PATH"
+if [ -e $HOME/bin/cursor/cursor ]; then
+  PATH="$HOME/bin/cursor:$PATH"
 fi
 
 # Rust
 . "$HOME/.cargo/env"
 
 # Pyenv, for installing and running multiple Python versions
-if [ -d /home/e/.pyenv ]; then
+if [ -d $HOME/.pyenv ]; then
   export PYENV_ROOT="$HOME/.pyenv"
   command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
   eval "$(pyenv init -)"
@@ -54,20 +61,20 @@ fi
 # export CCACHE_DIR=~/r/fuchsia/.ccache
 
 # Google Cloud SDK
-# if [ -f /home/e/r/p/google-cloud-sdk/path.bash.inc ]; then
-#   source '/home/e/r/p/google-cloud-sdk/path.bash.inc'
+# if [ -f $HOME/r/p/google-cloud-sdk/path.bash.inc ]; then
+#   source '$HOME/r/p/google-cloud-sdk/path.bash.inc'
 # fi
-# if [ -f /home/e/r/p/google-cloud-sdk/completion.bash.inc ]; then
-#   source '/home/e/r/p/google-cloud-sdk/completion.bash.inc'
+# if [ -f $HOME/r/p/google-cloud-sdk/completion.bash.inc ]; then
+#   source '$HOME/r/p/google-cloud-sdk/completion.bash.inc'
 # fi
 
 # PATH=/usr/local/bin/make:$PATH
 
 # Solana
-# PATH="/home/e/.local/share/solana/install/active_release/bin:$PATH"
+# PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
 
 # Aptos
-# export PATH="/home/e/.local/bin:$PATH"
+# export PATH="$HOME/.local/bin:$PATH"
 
 # Node.js. Fix 'FATAL ERROR: Reached heap limit Allocation failed - JavaScript heap out of memory'
 export NODE_OPTIONS=--max_old_space_size=4096
@@ -75,30 +82,30 @@ export NODE_OPTIONS=--max_old_space_size=4096
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-export PATH=/home/e/.meteor:$PATH
+export PATH=$HOME/.meteor:$PATH
 
 # pnpm
-export PNPM_HOME="/home/e/.local/share/pnpm"
+export PNPM_HOME="$HOME/.local/share/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
 esac
 # pnpm end
-export PATH="$PATH:/home/e/.foundry/bin"
+export PATH="$PATH:$HOME/.foundry/bin"
 
 # Foundry
-export PATH="$PATH:/Users/e/.foundry/bin"
+export PATH="$PATH:$HOME/.foundry/bin"
 
 # Cairo & Starknet
 export CAIRO_ROOT="$HOME/.cairo"
 command -v cairo-compile >/dev/null || export PATH="$CAIRO_ROOT/target/release:$PATH"
-if [ -f /home/e/.starkli/env ]; then
-  source "/home/e/.starkli/env"
+if [ -f $HOME/.starkli/env ]; then
+  source "$HOME/.starkli/env"
 fi
 
 # Aztec, including Secretive
-export PATH="$PATH:/home/e/.aztec/bin"
-export SSH_AUTH_SOCK=/Users/e/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
+export PATH="$PATH:$HOME/.aztec/bin"
+export SSH_AUTH_SOCK=$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
 
 # Serial comms with Rock 5B. See https://docs.radxa.com/en/general-tutorial/serial
 # alias minicom='minicom -w -t xterm -l -R UTF-8'
@@ -108,18 +115,18 @@ alias ls='ls -lah'
 alias emacs='emacs -nw'
 
 trash() {
-  mv "$1" "/home/e/.local/share/Trash/files"
+  mv "$1" "$HOME/.local/share/Trash/files"
 }
 
 export PS1="\$"
 
 # Or just put things in /usr/local/bin
 # No longer required because ~/.profile does this.
-# export PATH="/home/e/bin:$PATH"
+# export PATH="$HOME/bin:$PATH"
 
 # Autocompletion for the Stripe CLI
-if [ -f /home/e/.stripe/stripe-completion.bash ]; then
-  source /home/e/.stripe/stripe-completion.bash
+if [ -f $HOME/.stripe/stripe-completion.bash ]; then
+  source $HOME/.stripe/stripe-completion.bash
 fi
 
 # Autocompletion for k8s
@@ -130,8 +137,8 @@ fi
 
 # Direnv, used by the Worldcoin Orb software repo
 # Added by Nix installer
-if [ -e /home/e/.nix-profile/etc/profile.d/nix.sh ]; then
-  . /home/e/.nix-profile/etc/profile.d/nix.sh;
+if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
+  . $HOME/.nix-profile/etc/profile.d/nix.sh;
   eval "$(direnv hook bash)"
 fi
 
