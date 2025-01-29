@@ -96,8 +96,9 @@ if [ -f /home/e/.starkli/env ]; then
   source "/home/e/.starkli/env"
 fi
 
-# Aztec
+# Aztec, including Secretive
 export PATH="$PATH:/home/e/.aztec/bin"
+export SSH_AUTH_SOCK=/Users/e/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh
 
 # Serial comms with Rock 5B. See https://docs.radxa.com/en/general-tutorial/serial
 # alias minicom='minicom -w -t xterm -l -R UTF-8'
