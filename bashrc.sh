@@ -13,6 +13,9 @@ if [ -e /opt/homebrew/bin/brew ]; then
   eval $(/opt/homebrew/bin/brew shellenv)
 fi
 
+# Docker
+export PATH="$HOME/.docker/bin:$PATH"
+
 # Python
 # PATH=~/Library/Python/2.7/bin:$PATH
 
