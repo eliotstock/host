@@ -2,9 +2,10 @@
 # Instead add things to this file, which is.
 
 # echo "Starting repo bashrc"
-if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+#if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   # echo "Linux"
-elif [[ "$OSTYPE" == "darwin"* ]]; then
+#elif
+if [[ "$OSTYPE" == "darwin"* ]]; then
   # echo "Mac"
 
   # Homebrew, on Mac OS only
