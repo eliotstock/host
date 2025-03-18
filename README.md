@@ -226,10 +226,12 @@ chmod u+x ~/.bashrc
 
 Get `homebrew` by executing the one-liner on https://brew.sh/.
 
-Get Node.js and nvm from Homebrew.
+Get some dev tools.
 
 ```
 brew install node
+brew install pyenv
+brew install pyenv-virtualenv
 ```
 
 ## Browser extension wallets
