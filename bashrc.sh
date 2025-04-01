@@ -12,6 +12,11 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   if [ -e /opt/homebrew/bin/brew ]; then
     eval $(/opt/homebrew/bin/brew shellenv)
   fi
+
+  # Cursor
+  if [ -e /Applications/Cursor.app/Contents/MacOS/cursor ]; then
+    PATH="$PATH:/Applications/Cursor.app/Contents/MacOS"
+  fi
 fi
 
 # echo "Home: $HOME"
