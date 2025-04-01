@@ -21,16 +21,13 @@ fi
 
 # echo "Home: $HOME"
 
-# Have git and others use emacs for an editor, not vi.
+# Have git and others use nano for an editor, not vi.
 # crontab for one will break if you try setting this to VS Code.
-export VISUAL="emacs -nw"
+export VISUAL="nano"
 export EDITOR="$VISUAL"
 
 # Docker
 export PATH="$HOME/.docker/bin:$PATH"
-
-# Python
-# PATH=~/Library/Python/2.7/bin:$PATH
 
 # Cursor
 if [ -e $HOME/bin/cursor/cursor ]; then
