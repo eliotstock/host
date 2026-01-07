@@ -34,6 +34,9 @@ if [ -e $HOME/bin/cursor/cursor ]; then
   PATH="$HOME/bin/cursor:$PATH"
 fi
 
+# Claude Code
+export PATH="$HOME/.local/bin:$PATH"
+
 # Rust
 . "$HOME/.cargo/env"
 
