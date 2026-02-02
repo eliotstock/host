@@ -12,25 +12,30 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   if [ -e /opt/homebrew/bin/brew ]; then
     eval $(/opt/homebrew/bin/brew shellenv)
   fi
+
+  # Cursor
+  if [ -e /Applications/Cursor.app/Contents/MacOS/cursor ]; then
+    PATH="$PATH:/Applications/Cursor.app/Contents/MacOS"
+  fi
 fi
 
 # echo "Home: $HOME"
 
-# Have git and others use emacs for an editor, not vi.
+# Have git and others use nano for an editor, not vi.
 # crontab for one will break if you try setting this to VS Code.
-export VISUAL="emacs -nw"
+export VISUAL="nano"
 export EDITOR="$VISUAL"
 
 # Docker
 export PATH="$HOME/.docker/bin:$PATH"
 
-# Python
-# PATH=~/Library/Python/2.7/bin:$PATH
-
 # Cursor
 if [ -e $HOME/bin/cursor/cursor ]; then
   PATH="$HOME/bin/cursor:$PATH"
 fi
+
+# Claude Code
+export PATH="$HOME/.local/bin:$PATH"
 
 # Rust
 . "$HOME/.cargo/env"
@@ -84,6 +89,11 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 export PATH=$HOME/.meteor:$PATH
+
+# MySQL
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  export PATH="/opt/homebrew/opt/mysql@8.0/bin:$PATH"
+fi
 
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"

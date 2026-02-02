@@ -224,7 +224,19 @@ If you had to create `~/.bashrc`, also make it executable:
 chmod u+x ~/.bashrc
 ```
 
-Get `homebrew` by executing the one-liner on https://brew.sh/.
+Get some apps.
+
+|App          |Get from...|
+|-------------|-----------|
+|Chrome       |https://www.google.com/chrome/|
+|Slack        |App Store|
+|Warp         |https://warp.dev|
+|Cursor       |https://www.cursor.com/|
+|Telegram     |App Store|
+|Discord      |https://discord.com/download|
+|Homebrew     |Execute the one-liner on https://brew.sh/|
+|VLC          |https://www.videolan.org/vlc/|
+|Transmission |https://transmissionbt.com/|
 
 Get some dev tools.
 
