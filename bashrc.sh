@@ -143,4 +143,13 @@ if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then
   eval "$(direnv hook bash)"
 fi
 
+if [ -d /opt/homebrew/opt/mysql@8.0/bin ]; then
+  export PATH="/opt/homebrew/opt/mysql@8.0/bin:$PATH"
+fi
+
+# pipx
+if [ -d $HOME/.local/bin ]; then
+  export PATH="$PATH:$HOME/.local/bin"
+fi
+
 # echo "Finished repo bashrc"
