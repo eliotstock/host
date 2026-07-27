@@ -1,6 +1,14 @@
 # Do not add things to ~/.bashrc, which is not version controlled.
 # Instead add things to this file, which is.
 
+# ESP-IDF + ESP-Matter (source on demand, not at login — too slow for every shell).
+# Usage: get_idf   — sets up idf.py, esptool, etc. for the session.
+alias get_idf='. /Users/e/esp/esp-idf/export.sh'
+alias get_matter='. /Users/e/esp/esp-matter/export.sh'
+
+# Matter chip-tool (permanently in PATH — standalone binary, no env setup needed).
+export PATH="/Users/e/esp/esp-matter/connectedhomeip/connectedhomeip/out/host:$PATH"
+
 # echo "Starting repo bashrc"
 #if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   # echo "Linux"
