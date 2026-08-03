@@ -9,6 +9,9 @@ alias get_matter='. /Users/e/esp/esp-matter/export.sh'
 # Matter chip-tool (permanently in PATH — standalone binary, no env setup needed).
 export PATH="/Users/e/esp/esp-matter/connectedhomeip/connectedhomeip/out/host:$PATH"
 
+# KiCad
+export PATH="/Applications/KiCad/KiCad.app/Contents/MacOS/kicad-cli:$PATH"
+
 # echo "Starting repo bashrc"
 #if [[ "$OSTYPE" == "linux-gnu"* ]]; then
   # echo "Linux"
