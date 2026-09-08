@@ -4,6 +4,10 @@
 #
 # Interactive: every removal is measured first, listed largest-first, and you're
 # asked before each one. Enter (or y) removes, n skips.
+#
+# Docker: the prune step never touches volumes. Volumes attached to any container,
+# running or stopped, are never offered for removal. Only volumes attached to no
+# container at all get their own prompt, one each.
 set -u
 
 # Build dirs under these projects are skipped because they're in active use and
@@ -13,33 +17,76 @@ SKIP_PROJECTS=(
   "$HOME/r/lawdbl/agent-epa"      # also covers its .claude/worktrees
 )
 
-DOCKER_RAW=~/Library/Containers/com.docker.docker/Data/vms/0/data/Docker.raw
-
 free_gb() { df -g / | awk 'NR==2 {print $4}'; }
 kb_of()   { [ -e "$1" ] && du -sk "$1" 2>/dev/null | cut -f1 || echo 0; }
 human()   { awk -v k="$1" 'BEGIN{ if (k>=1048576) printf "%.1f GB", k/1048576; else if (k>=1024) printf "%.0f MB", k/1024; else printf "%d KB", k }'; }
+# "2.661GB", "716.4MB", "49.15kB", "0B" -> KB
+to_kb()   { awk -v s="${1:-0}" 'BEGIN{ n=s; gsub(/[^0-9.]/,"",n); u=s; gsub(/[0-9.,]/,"",u);
+            m=0; if(u~/^[kK]/)m=1; else if(u~/^M/)m=1024; else if(u~/^G/)m=1048576; else if(u~/^T/)m=1073741824;
+            printf "%d", n*m }'; }
 
 plan=$(mktemp); trap 'rm -f "$plan"' EXIT
 add() { [ "$1" -gt 0 ] 2>/dev/null && printf '%s\t%s\t%s\n' "$1" "$2" "$3" >> "$plan"; }  # kb kind arg
 
 # Parse "approximately 716.4MB" from brew's dry run into KB.
 brew_kb() {
-  local n u
+  local n
   n=$(brew cleanup --prune=all -n 2>/dev/null | grep -o 'approximately [0-9.,]*[KMG]B' | tail -1)
-  n=${n#approximately }; u=${n//[0-9.,]/}; n=${n%"$u"}; n=${n//,/}
-  case $u in
-    KB) awk "BEGIN{print int($n)}" ;;
-    MB) awk "BEGIN{print int($n*1024)}" ;;
-    GB) awk "BEGIN{print int($n*1024*1024)}" ;;
-    *)  kb_of ~/Library/Caches/Homebrew ;;
-  esac
+  [ -n "$n" ] && to_kb "${n#approximately }" || kb_of ~/Library/Caches/Homebrew
+}
+
+# Approximate space freed by `docker system prune -a`: all build cache, plus
+# images and containers docker already reports as reclaimable.
+docker_kb() {
+  local img ctr bld
+  img=$(docker system df --format '{{.Type}}\t{{.Reclaimable}}' | awk -F'\t' '$1=="Images"{print $2}' | cut -d' ' -f1)
+  ctr=$(docker system df --format '{{.Type}}\t{{.Reclaimable}}' | awk -F'\t' '$1=="Containers"{print $2}' | cut -d' ' -f1)
+  bld=$(docker buildx du 2>/dev/null | awk '/^Total:/{print $2}')
+  echo $(( $(to_kb "$img") + $(to_kb "$ctr") + $(to_kb "$bld") ))
+}
+
+# Exactly what `docker system prune -a` keeps and removes.
+docker_report() {
+  local running id name size users
+  running=$(docker ps -q | xargs -r docker inspect --format '{{.Image}}' 2>/dev/null | sort -u)
+  echo "  KEEPS"
+  echo "    every volume (this step has no --volumes; data is untouched):"
+  docker volume ls -q | while read -r v; do
+    size=$(docker system df -v --format '{{range .Volumes}}{{.Name}}\t{{.Size}}\n{{end}}' | awk -F'\t' -v v="$v" '$1==v{print $2}')
+    users=$(docker ps -a --filter "volume=$v" --format '{{.Names}}' | sort -u | paste -sd, -)
+    printf '      %-28s %8s  attached to %s\n' "$v" "$size" "${users:-nothing}"
+  done
+  echo "    running containers:"
+  docker ps --format '{{.Names}}  ({{.Image}}, {{.Status}})' | sed 's/^/      /'
+  echo "    images used by a running container:"
+  docker images --no-trunc --format '{{.ID}}\t{{.Repository}}:{{.Tag}}\t{{.Size}}' | while IFS=$'\t' read -r id name size; do
+    printf '%s\n' "$running" | grep -qx "$id" && printf '      %s  (%s)\n' "$name" "$size"
+  done
+  echo "  REMOVES"
+  echo "    stopped containers (docker compose up recreates them and reattaches their volumes):"
+  docker ps -a --filter status=exited --filter status=created --filter status=dead --format '{{.Names}}  ({{.Image}}, {{.Status}})' | sed 's/^/      /'
+  echo "    every other image (re-pulled or rebuilt on demand):"
+  docker images --no-trunc --format '{{.ID}}\t{{.Repository}}:{{.Tag}}\t{{.Size}}' | while IFS=$'\t' read -r id name size; do
+    printf '%s\n' "$running" | grep -qx "$id" || printf '      %s  (%s)\n' "$name" "$size"
+  done
+  echo "    all build cache ($(docker buildx du 2>/dev/null | awk '/^Total:/{print $2}'))"
 }
 
 before=$(free_gb)
 echo "Free space now: ${before} GB. Measuring what can be reclaimed..."
 
-# -- Docker: images, stopped containers and volumes inside the VM disk ------------
-[ -e "$DOCKER_RAW" ] && add "$(kb_of "$DOCKER_RAW")" docker "$DOCKER_RAW"
+# -- Docker -----------------------------------------------------------------------
+if docker info >/dev/null 2>&1; then
+  add "$(docker_kb)" docker prune
+  # Volumes attached to no container at all, running or stopped. One prompt each.
+  docker volume ls -q | while read -r v; do
+    [ -z "$(docker ps -a -q --filter "volume=$v")" ] || continue
+    size=$(docker system df -v --format '{{range .Volumes}}{{.Name}}\t{{.Size}}\n{{end}}' | awk -F'\t' -v v="$v" '$1==v{print $2}')
+    add "$(to_kb "$size")" volume "$v"
+  done
+else
+  echo "Docker isn't running: start Docker Desktop first to include build cache, images and volumes."
+fi
 
 # -- Build/dependency dirs under ~/r (node_modules, Rust target, SwiftPM .build) --
 find ~/r -type d \( -name node_modules -o -name target -o -name .build \) -prune -print 2>/dev/null \
@@ -71,7 +118,8 @@ command -v brew >/dev/null && add "$(brew_kb)" brew ~/Library/Caches/Homebrew
 while IFS=$'\t' read -r -u 3 kb kind arg; do
   case $kind in
     dir)    label="rm -rf $arg" ;;
-    docker) label="docker system prune -a --volumes  (ALL unused images, stopped containers and volumes; up to the VM disk's size)" ;;
+    docker) label="docker system prune -a  (build cache, stopped containers, unused images; NO volumes)" ;;
+    volume) label="docker volume rm $arg  (attached to no container; project: $(docker volume inspect --format '{{index .Labels "com.docker.compose.project"}}' "$arg" 2>/dev/null))" ;;
     npm)    label="npm cache clean --force  ($arg)" ;;
     uv)     label="uv cache clean  ($arg)" ;;
     pnpm)   label="pnpm store prune  ($arg)" ;;
@@ -79,12 +127,13 @@ while IFS=$'\t' read -r -u 3 kb kind arg; do
     brew)   label="brew cleanup --prune=all + rm -rf $arg" ;;
   esac
   printf '\n[%8s]  %s\n' "$(human "$kb")" "$label"
+  [ "$kind" = docker ] && docker_report
   read -r -p "  Remove? [Y/n] " ans
   case $ans in n|N|no|NO) echo "  skipped"; continue ;; esac
   case $kind in
     dir)    rm -rf "$arg" ;;
-    docker) if docker info >/dev/null 2>&1; then docker system prune -a --volumes -f
-            else echo "  Docker isn't running. Start Docker Desktop and re-run, or use Troubleshoot -> 'Clean / Purge data'."; fi ;;
+    docker) docker system prune -a -f | tail -1 ;;
+    volume) docker volume rm "$arg" >/dev/null && echo "  removed" ;;
     npm)    npm cache clean --force 2>/dev/null ;;
     uv)     uv cache clean ;;
     pnpm)   pnpm store prune ;;
