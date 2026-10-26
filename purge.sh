@@ -10,6 +10,9 @@
 # to no container at all get their own prompt, one each.
 set -u
 
+# Without a terminal, read gets EOF instead of an answer. Refuse rather than guess.
+[ -t 0 ] || { echo "purge.sh is interactive: run it in a real terminal." >&2; exit 1; }
+
 # Build dirs under these projects are skipped because they're in active use and
 # reinstalling them is slow. Delete a line here to purge that project again.
 SKIP_PROJECTS=(
@@ -125,7 +128,7 @@ while IFS=$'\t' read -r -u 3 kb kind arg; do
   esac
   printf '\n[%8s]  %s\n' "$(human "$kb")" "$label"
   [ "$kind" = docker ] && docker_report
-  read -r -p "  Remove? [Y/n] " ans
+  read -r -p "  Remove? [Y/n] " ans || { echo "  no answer, skipped"; continue; }
   case $ans in n|N|no|NO) echo "  skipped"; continue ;; esac
   case $kind in
     dir)    rm -rf "$arg" ;;
