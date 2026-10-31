@@ -107,6 +107,12 @@ for c in ~/.cache/puppeteer \
   add "$(kb_of "$c")" dir "$c"
 done
 
+# -- Chrome code-sign clones ------------------------------------------------------
+# Chrome copies itself here on each update and never cleans up (was 17 GB).
+# Deleting while Chrome runs can break it, so this step needs Chrome quit.
+chrome_clone="$(dirname "$(getconf DARWIN_USER_TEMP_DIR)")/X/com.google.Chrome.code_sign_clone"
+add "$(kb_of "$chrome_clone")" chrome "$chrome_clone"
+
 # -- Package manager caches -------------------------------------------------------
 command -v npm  >/dev/null && add "$(kb_of "$(npm config get cache)/_cacache")" npm  "$(npm config get cache)/_cacache"
 command -v uv   >/dev/null && add "$(kb_of ~/.cache/uv)" uv ~/.cache/uv
@@ -125,6 +131,7 @@ while IFS=$'\t' read -r -u 3 kb kind arg; do
     pnpm)   label="pnpm store prune  ($arg)" ;;
     yarn)   label="yarn cache clean  ($arg)" ;;
     brew)   label="brew cleanup --prune=all + rm -rf $arg" ;;
+    chrome) label="rm -rf $arg  (stale Chrome update copies; QUIT CHROME FIRST with Cmd-Q)" ;;
   esac
   printf '\n[%8s]  %s\n' "$(human "$kb")" "$label"
   [ "$kind" = docker ] && docker_report
@@ -139,6 +146,11 @@ while IFS=$'\t' read -r -u 3 kb kind arg; do
     pnpm)   pnpm store prune ;;
     yarn)   yarn cache clean ;;
     brew)   brew cleanup --prune=all; rm -rf "$arg" ;;
+    chrome) if pgrep -xq "Google Chrome"; then
+              echo "  Chrome is still running: quit it (Cmd-Q) and re-run. Skipped."
+            else
+              rm -rf "$arg"
+            fi ;;
   esac
 done 3< <(sort -rn "$plan")
 
